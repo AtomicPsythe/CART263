@@ -39,6 +39,7 @@ function setup() {
     speechSynthesizer.onEnd = speechEnded;
 
     speechRecognizer.onResult = handleSpeechInput;
+    speechSynthesizer.continuous = true; 
     speechRecognizer.continuous = true;
     speechRecognizer.start();
 
