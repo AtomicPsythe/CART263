@@ -302,7 +302,7 @@ function q5() {
 
 function ending() {
     push();
-    textSize(38);
+    textSize(36);
     fill(255, 255, 255);
     textAlign(CENTER, CENTER);
     text("Game over, thank you for playing!\n Refresh the page to play again!", width/2, height/3);
@@ -311,8 +311,8 @@ function ending() {
     textSize(26);
     fill(255, 255, 255);
     textAlign(CENTER);
-    text("Your finishing score was       .", width/2, height/1.5)
-    text(points, 525, height/1.5)
+    text("Your finishing score was    .", width/2, height/1.5)
+    text(points, 540, height/1.5)
     pop();
 }
 
@@ -429,9 +429,9 @@ function mousePressed() {
         state = "q1";
         speechSynthesizer.speak("What video game did Mario first appear in? A) Donkey Kong, B) Super Mario Bros., C) Mario's Cement Factory");
     }
-    if (state === "q1") {
-        speechSynthesizer.speak("What video game did Mario first appear in? A) Donkey Kong, B) Super Mario Bros., C) Mario's Cement Factory");
-    }
+    // if (state === "q1") {
+    //     speechSynthesizer.speak("What video game did Mario first appear in? A) Donkey Kong, B) Super Mario Bros., C) Mario's Cement Factory");
+    // }
     if (state === "q2") {
         speechSynthesizer.speak("Which of these games is oldest? A) Asteroids, B) Galaxian, C) Pong");
     }
