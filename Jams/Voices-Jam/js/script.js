@@ -108,7 +108,8 @@ function speechEnded() {
 }
 
 function q1() {
-    console.log(timer);
+    // console.log(timer);
+    // the timer and point indicator
     push();
     circle(720, 70, 100);
     textSize(34);
@@ -154,6 +155,7 @@ function q1() {
 }
 
 function q2() {
+    // the timer and point indicator
     push();
     circle(720, 70, 100);
     textSize(34);
@@ -169,6 +171,7 @@ function q2() {
         timer = 15;
         q3();
     }
+
     speechSynthesizer.speak("Which of these games is oldest? A) Asteroids, B) Galaxian, C) Pong")
     push();
     textSize(48);
@@ -197,6 +200,7 @@ function q2() {
 }
 
 function q3() {
+    // the timer and point indicator
     push();
     circle(720, 70, 100);
     textSize(34);
@@ -244,6 +248,7 @@ function q3() {
 }
 
 function q4() {
+    // the timer and point indicator
     push();
     circle(720, 70, 100);
     textSize(34);
@@ -291,6 +296,7 @@ function q4() {
 }
 
 function q5() {
+    // the timer and point indicator
     push();
     circle(720, 70, 100);
     textSize(34);
@@ -337,95 +343,95 @@ function q5() {
 }
 
 function handleSpeechInput() {
-    console.log(speechRecognizer.resultString); // make this lowercase to understand all possible answers
+    console.log(speechRecognizer.resultString.toLowerCase()); // make this lowercase to understand all possible answers
     // question 1
-    if (speechRecognizer.resultString === "Donkey Kong") {
+    if (speechRecognizer.resultString.toLowerCase() === "donkey kong") {
         points++;
         correct.play();
         state = "q2"
         speechSynthesizer.speak("Which of these games is oldest? A) Asteroids, B) Galaxian, C) Pong")
     }
-    if (speechRecognizer.resultString === "Super Mario Bros") {
+    if (speechRecognizer.resultString.toLowerCase() === "super mario bros") {
         points--;
         incorrect.play();
         state = "q2"
         speechSynthesizer.speak("Which of these games is oldest? A) Asteroids, B) Galaxian, C) Pong")
     }
-    if (speechRecognizer.resultString === "Mario's Cement Factory") {
+    if (speechRecognizer.resultString.toLowerCase() === "mario's cement factory") {
         points--;
         incorrect.play();
         state = "q2"
         speechSynthesizer.speak("Which of these games is oldest? A) Asteroids, B) Galaxian, C) Pong")
     }
     // question 2
-    if (speechRecognizer.resultString === "Asteroids") {
+    if (speechRecognizer.resultString.toLowerCase() === "asteroids") {
         points--;
         incorrect.play();
         state = "q3"
         speechSynthesizer.speak("What is the best selling video game of all time? A) Tetris, B) Minecraft, C) Grand Theft Auto")
     }
-    if (speechRecognizer.resultString === "Galaxian") {
+    if (speechRecognizer.resultString.toLowerCase() === "galaxian") {
         points--;
         incorrect.play();
         state = "q3"
         speechSynthesizer.speak("What is the best selling video game of all time? A) Tetris, B) Minecraft, C) Grand Theft Auto")
     }
-    if (speechRecognizer.resultString === "Pong") {
+    if (speechRecognizer.resultString.toLowerCase() === "pong") {
         points++;
         correct.play();
         state = "q3"
         speechSynthesizer.speak("What is the best selling video game of all time? A) Tetris, B) Minecraft, C) Grand Theft Auto")
     }
     // question 3
-    if (speechRecognizer.resultString === "Tetris") {
+    if (speechRecognizer.resultString.toLowerCase() === "tetris") {
         points++;
         correct.play();
         state = "q4"
         speechSynthesizer.speak("What is the best selling video game console of all time? A) Nintendo DS, B) Sony Playstation 2, C) XBox 360")
     }
-    if (speechRecognizer.resultString === "Minecraft") {
+    if (speechRecognizer.resultString.toLowerCase() === "minecraft") {
         points--;
         incorrect.play();
         state = "q4"
         speechSynthesizer.speak("What is the best selling video game console of all time? A) Nintendo DS, B) Sony Playstation 2, C) XBox 360")
     }
-    if (speechRecognizer.resultString === "Grand Theft Auto") {
+    if (speechRecognizer.resultString.toLowerCase() === "grand theft auto") {
         points--;
         incorrect.play();
         state = "q4"
         speechSynthesizer.speak("What is the best selling video game console of all time? A) Nintendo DS, B) Sony Playstation 2, C) XBox 360")
     }
     // question 4
-    if (speechRecognizer.resultString === "Nintendo DS") {
+    if (speechRecognizer.resultString.toLowerCase() === "nintendo ds") {
         points--;
         incorrect.play();
         state = "q5"
         speechSynthesizer.speak("What is the species of Sonic the Hedgehog's friend Knuckles? A) Two-tailed fox, B) Robot, C) Echidna")
     }
-    if (speechRecognizer.resultString === "Sony Playstation 2") {
+    if (speechRecognizer.resultString.toLowerCase() === "sony playstation 2") {
         points++;
         correct.play();
         state = "q5"
         speechSynthesizer.speak("What is the species of Sonic the Hedgehog's friend Knuckles? A) Two-tailed fox, B) Robot, C) Echidna")
     }
-    if (speechRecognizer.resultString === "XBox 360") {
+    if (speechRecognizer.resultString.toLowerCase() === "xbox 360") {
         points--;
         incorrect.play();
         state = "q5"
         speechSynthesizer.speak("What is the species of Sonic the Hedgehog's friend Knuckles? A) Two-tailed fox, B) Robot, C) Echidna")
     }
     // question 5
-    if (speechRecognizer.resultString === "Two-tailed fox") {
+    if (speechRecognizer.resultString.toLowerCase() === "two-tailed fox") {
         points--;
         incorrect.play();
         state = "ending"
     }
-    if (speechRecognizer.resultString === "Robot") {
+    if (speechRecognizer.resultString.toLowerCase() === "robot") {
         points--;
         incorrect.play();
         state = "ending"
     }
-    if (speechRecognizer.resultString === "Echidna") {
+    if (speechRecognizer.resultString.toLowerCase() === "echidna") {
         points++;
         correct.play();
         state = "ending"
