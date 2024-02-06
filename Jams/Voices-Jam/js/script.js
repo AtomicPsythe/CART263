@@ -90,14 +90,18 @@ function draw() {
     }
 }
 
-// the title state, which presents the title of the game and how to advance to the first question
+// the title state, which presents the title of the game, the instructions, and how to advance to the first question
 function title() {
     push();
     textSize(38);
     fill(255, 255, 255);
     textAlign(CENTER, CENTER);
-    text("Welcome to Trivordia!", width/2, height/3);
+    text("Welcome to Trivordia!", width/2, height/4);
     pop();
+    push(); 
+    rect(200, 290, 400, 110);
+    textSize(15);
+    text("Once the question is read out, you will have a certain \namount of time to provide an answer and will gain or lose \na point depending if the answer correct or not. If no answer \nis said it will simply move onto the next question. \nTry to gain as many points as you can!", 205, 310);
     push();
     textSize(26);
     fill(255, 255, 255);
@@ -140,11 +144,15 @@ function timerAndPoints() {
 function q1() {
     // the timer and point indicator
     timerAndPoints();
+    if (timer === 5) {
+        mainTheme.rate(2);
+    }
     if (timer === 0 && state === "q1") {
         state = "q2"
         timer = 15;
         q2();
         speechSynthesizer.speak("Which of these games is oldest? A) Asteroids, B) Galaxian, C) Pong");
+        mainTheme.rate(1);
     }
 
     push();
@@ -177,11 +185,15 @@ function q1() {
 function q2() {
     // the timer and point indicator
     timerAndPoints();
+    if (timer === 5) {
+        mainTheme.rate(2);
+    }
     if (timer === 0 && state === "q2") {
         state = "q3"
         timer = 10;
         q3();
         speechSynthesizer.speak("What is the best selling video game of all time? A) Tetris, B) Minecraft, C) Grand Theft Auto");
+        mainTheme.rate(1);
     }
 
     push();
@@ -214,11 +226,15 @@ function q2() {
 function q3() {
     // the timer and point indicator
     timerAndPoints();
+    if (timer === 5) {
+        mainTheme.rate(2);
+    }
     if (timer === 0 && state === "q3") {
         state = "q4"
         timer = 10;
         q4();
         speechSynthesizer.speak("What is the best selling video game console of all time? A) Nintendo DS, B) Sony Playstation 2, C) XBox 360");
+        mainTheme.rate(1);
     }
 
     push();
@@ -251,11 +267,15 @@ function q3() {
 function q4() {
     // the timer and point indicator
     timerAndPoints();
+    if (timer === 5) {
+        mainTheme.rate(2);
+    }
     if (timer === 0 && state === "q4") {
         state = "q5"
         timer = 5;
         q5();
         speechSynthesizer.speak("What is the species of Sonic the Hedgehog's friend Knuckles? A) Two-tailed fox, B) Robot, C) Echidna");
+        mainTheme.rate(1);
     }
 
     push();
@@ -288,9 +308,13 @@ function q4() {
 function q5() {
     // the timer and point indicator
     timerAndPoints();
+    if (timer === 5) {
+        mainTheme.rate(2);
+    }
     if (timer === 0 && state === "q5") {
         state = "ending"
         ending();
+        mainTheme.rate(1);
     }
 
     push();
