@@ -11,24 +11,26 @@ const speechRecognizer = new p5.SpeechRec();
 let showSubtitle = false;
 let state = "title";
 
+// variables for the sounds and background image
 let correct;
 let incorrect;
 let gameshow;
+let mainTheme;
 
+// the timer and points variables
 let timer = 15;
 let timerStarted = false;
-
 let points = 0;
 
+// defining the variables for the sounds and background image
 function preload() {
     correct = loadSound("assets/sounds/correct.mp3");
     incorrect = loadSound("assets/sounds/incorrect.mp3");
+    mainTheme = loadSound("assets/sounds/Jeopardy-Theme.mp3");
     gameshow = loadImage("assets/images/gameshow.jpg");
 }
 
-/**
-Description of setup
-*/
+// defining the variables for the audio, being the speech input and output settings
 function setup() {
     createCanvas(800, 800);
 
@@ -47,15 +49,17 @@ function setup() {
     speechRecognizer.onResult = handleSpeechInput;
     speechRecognizer.continuous = true; 
     speechRecognizer.start();
+
+    mainTheme.loop();
+    mainTheme.setVolume(0.20);
 }
 
+// resets the timer once it enters a new state
 function reset() {
     timer = 15;
 }
 
-/**
-Description of draw()
-*/
+// creates the background, allows for the timer to function, and esatblishes the states for each question
 function draw() {
     background(gameshow);
 
@@ -86,6 +90,7 @@ function draw() {
     }
 }
 
+// the title state, which presents the title of the game and how to advance to the first question
 function title() {
     push();
     textSize(38);
@@ -100,14 +105,19 @@ function title() {
     text("Click the screen to start!", width/2, height/1.5)
     pop();
 }
+
+// allows for the user's speech to be recognized 
 function speechStarted() {
     showSubtitle = true;
+    timerStarted = false;
 }
 
+// allows for the timer to begin ticking once the computer is done reading out the question and answers
 function speechEnded() {
     timerStarted = true;
 }
 
+// the visual display of the increasing and decreasing timer and points
 function timerAndPoints() {
     push();
     rect(535, 130, 240, 50);
@@ -126,6 +136,7 @@ function timerAndPoints() {
     pop();
 }
 
+// creating the question and answers for question 1 + reads them out + goes to the next question if time runs out
 function q1() {
     // the timer and point indicator
     timerAndPoints();
@@ -133,6 +144,7 @@ function q1() {
         state = "q2"
         timer = 15;
         q2();
+        speechSynthesizer.speak("Which of these games is oldest? A) Asteroids, B) Galaxian, C) Pong");
     }
 
     push();
@@ -161,13 +173,15 @@ function q1() {
     pop();   
 }
 
+// creating the question and answers for question 2 + reads them out + goes to the next question if time runs out
 function q2() {
     // the timer and point indicator
     timerAndPoints();
     if (timer === 0 && state === "q2") {
         state = "q3"
-        timer = 15;
+        timer = 10;
         q3();
+        speechSynthesizer.speak("What is the best selling video game of all time? A) Tetris, B) Minecraft, C) Grand Theft Auto");
     }
 
     push();
@@ -196,6 +210,7 @@ function q2() {
     pop();   
 }
 
+// creating the question and answers for question 3 + reads them out + goes to the next question if time runs out
 function q3() {
     // the timer and point indicator
     timerAndPoints();
@@ -203,6 +218,7 @@ function q3() {
         state = "q4"
         timer = 10;
         q4();
+        speechSynthesizer.speak("What is the best selling video game console of all time? A) Nintendo DS, B) Sony Playstation 2, C) XBox 360");
     }
 
     push();
@@ -231,6 +247,7 @@ function q3() {
     pop();   
 }
 
+// creating the question and answers for question 4 + reads them out + goes to the next question if time runs out
 function q4() {
     // the timer and point indicator
     timerAndPoints();
@@ -238,6 +255,7 @@ function q4() {
         state = "q5"
         timer = 5;
         q5();
+        speechSynthesizer.speak("What is the species of Sonic the Hedgehog's friend Knuckles? A) Two-tailed fox, B) Robot, C) Echidna");
     }
 
     push();
@@ -266,6 +284,7 @@ function q4() {
     pop();   
 }
 
+// creating the question and answers for question 5 + reads them out + goes to the next question if time runs out
 function q5() {
     // the timer and point indicator
     timerAndPoints();
@@ -300,6 +319,7 @@ function q5() {
     pop();   
 }
 
+// displays the ending screen of the game where it displays the amount of points the user got
 function ending() {
     push();
     textSize(36);
@@ -316,8 +336,9 @@ function ending() {
     pop();
 }
 
+// plays a sound and gain or lose a point depeneding on if the question is correct or incorrect + resets the timer and goes to the next question state
 function handleSpeechInput() {
-    console.log(speechRecognizer.resultString.toLowerCase()); // make this lowercase to understand all possible answers
+    console.log(speechRecognizer.resultString.toLowerCase()); 
     // question 1
     if (speechRecognizer.resultString.toLowerCase() === "donkey kong") {
         points++;
@@ -424,6 +445,7 @@ function handleSpeechInput() {
     }
 }
 
+// allows for the user to go from the title state to question 1
 function mousePressed() {
     if (state === "title") {
         state = "q1";
@@ -432,16 +454,16 @@ function mousePressed() {
     // if (state === "q1") {
     //     speechSynthesizer.speak("What video game did Mario first appear in? A) Donkey Kong, B) Super Mario Bros., C) Mario's Cement Factory");
     // }
-    if (state === "q2") {
-        speechSynthesizer.speak("Which of these games is oldest? A) Asteroids, B) Galaxian, C) Pong");
-    }
-    if (state === "q3") {
-        speechSynthesizer.speak("What is the best selling video game of all time? A) Tetris, B) Minecraft, C) Grand Theft Auto");
-    }
-    if (state === "q4") {
-        speechSynthesizer.speak("What is the best selling video game console of all time? A) Nintendo DS, B) Sony Playstation 2, C) XBox 360");
-    }
-    if (state === "q5") {
-        speechSynthesizer.speak("What is the species of Sonic the Hedgehog's friend Knuckles? A) Two-tailed fox, B) Robot, C) Echidna");
-    }
+    // if (state === "q2") {
+    //     speechSynthesizer.speak("Which of these games is oldest? A) Asteroids, B) Galaxian, C) Pong");
+    // }
+    // if (state === "q3") {
+    //     speechSynthesizer.speak("What is the best selling video game of all time? A) Tetris, B) Minecraft, C) Grand Theft Auto");
+    // }
+    // if (state === "q4") {
+    //     speechSynthesizer.speak("What is the best selling video game console of all time? A) Nintendo DS, B) Sony Playstation 2, C) XBox 360");
+    // }
+    // if (state === "q5") {
+    //     speechSynthesizer.speak("What is the species of Sonic the Hedgehog's friend Knuckles? A) Two-tailed fox, B) Robot, C) Echidna");
+    // }
 }
