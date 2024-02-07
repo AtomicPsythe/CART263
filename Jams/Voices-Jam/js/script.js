@@ -9,6 +9,7 @@ const speechSynthesizer = new p5.Speech();
 const speechRecognizer = new p5.SpeechRec();
 
 let showSubtitle = false;
+// variable to define the states
 let state = "title";
 
 // variables for the sounds and background image
@@ -50,6 +51,7 @@ function setup() {
     speechRecognizer.continuous = true; 
     speechRecognizer.start();
 
+    // loops and sets the volume for the background music
     mainTheme.loop();
     mainTheme.setVolume(0.20);
 }
@@ -85,6 +87,7 @@ function draw() {
         ending();
     }
 
+    // allows for the timer to count down
     if (frameCount % 60 === 0 && timer > 0 && timerStarted) {
         timer--;
     }
@@ -144,6 +147,7 @@ function timerAndPoints() {
 function q1() {
     // the timer and point indicator
     timerAndPoints();
+    // once the timer reaches 5 seconds the background music speeds up for suspence
     if (timer === 5) {
         mainTheme.rate(2);
     }
@@ -475,19 +479,4 @@ function mousePressed() {
         state = "q1";
         speechSynthesizer.speak("What video game did Mario first appear in? A) Donkey Kong, B) Super Mario Bros., C) Mario's Cement Factory");
     }
-    // if (state === "q1") {
-    //     speechSynthesizer.speak("What video game did Mario first appear in? A) Donkey Kong, B) Super Mario Bros., C) Mario's Cement Factory");
-    // }
-    // if (state === "q2") {
-    //     speechSynthesizer.speak("Which of these games is oldest? A) Asteroids, B) Galaxian, C) Pong");
-    // }
-    // if (state === "q3") {
-    //     speechSynthesizer.speak("What is the best selling video game of all time? A) Tetris, B) Minecraft, C) Grand Theft Auto");
-    // }
-    // if (state === "q4") {
-    //     speechSynthesizer.speak("What is the best selling video game console of all time? A) Nintendo DS, B) Sony Playstation 2, C) XBox 360");
-    // }
-    // if (state === "q5") {
-    //     speechSynthesizer.speak("What is the species of Sonic the Hedgehog's friend Knuckles? A) Two-tailed fox, B) Robot, C) Echidna");
-    // }
 }
