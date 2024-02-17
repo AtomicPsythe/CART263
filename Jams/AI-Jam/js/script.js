@@ -18,22 +18,30 @@ let cocossd;
 // The current set of predictions made by CocoSsd once it's running
 let predictions = [];
 
+// defining the specific objects that needed to be found
 let objectToShow = "cell phone";
-let objects = ["cell phone", "scissors", "glasses"];
+let objects = ["cell phone", "scissors", "headphones", "an apple"];
+
+// the emoji mapping
+let emojis = undefined;
+
+// the timer and points variables
+let timer = 20;
+let timerStarted = false;
 
 /**
-Description of preload
+Inputting and defining sounds and images
 */
 function preload() {
-
+  emojis = loadJSON(`assets/cocossd-emoji-mapping.json`);
 }
 
 
 /**
-Description of setup
+Gives the computer the ability to run ml5 and allows the cocossd camera to function
 */
 function setup() {
-  createCanvas(640, 480);
+  createCanvas(840, 680);
 
   // Start webcam and hide the resulting HTML element
   video = createCapture(VIDEO);
@@ -50,6 +58,12 @@ function setup() {
   });
 }
 
+// resets the timer once it enters a new state
+function reset() {
+  timer = 20;
+}
+
+// checks if there is any errors in the functionality of the program
 function gotResults(err, results) {
   // If there's an error, report it
   if (err) {
@@ -64,7 +78,7 @@ function gotResults(err, results) {
 }
 
 /**
-Description of draw()
+Goes through each state and allows it to function smoothly + allows for the timer to begin counting down
 */
 function draw() {
   if (state === "title") {
@@ -76,18 +90,32 @@ function draw() {
   else if (state === `running`) {
     running();
   }
+  if (state === `active`) {
+    timerActive();
+  }
+  if (state === `pause`) {
+    setTimeout(endPause, 5000);
+  }
+
+  // allows for the timer to count down
+  if (frameCount % 60 === 0 && timer > 0 && timerStarted) {
+    timer--;
+  }
 }
 
+// creates the title state 
 function title() {
     background(0);
     push();
     textSize(38);
     fill(255, 255, 255);
     textAlign(CENTER, CENTER);
-    text("title", width/2, height/4);
+    text("Welcome to Search n' Show!", width/2, height/4);
+    text("The game will begin shortly...", width/2, height/1.5);
     pop();
 }
 
+// the transition phase between the title and running states
 function loading() {
   background(255);
 
@@ -99,14 +127,34 @@ function loading() {
   pop();
 }
 
+// creates the UI for the timer
+function timerActive() {
+  push();
+  rect(660, 130, 90, 50);
+  textSize(30);
+  text("TIME", 670, 165);
+  circle(710, 70, 100);
+  textSize(34);
+  text(timer, 690, 80);
+  pop();
+}
+
+function endPause() {
+  state = `active`;
+}
+
+// the running program: does not highlight a "person", checks if the objects 
+// shown on screen are the objects that needed to be shown, and checks if the correct object is found in time
 function running() {
   // Display the webcam
   image(video, 0, 0, width, height);
 
+  timerActive();
   push();
   textSize(32);
   fill(255, 255, 255);
-  text(`Show a ${objectToShow}`, width/2, height/9);
+  text(`Find: ${objectToShow}`, 380, height/9);
+  timerStarted = true;
   // play mysterious sound here
   pop();
 
@@ -121,19 +169,41 @@ function running() {
                 // Highlight it on the canvas
                 highlightObject(object);
             }
+            // checks of the label is the same as the object needed to be found
             if (predictions[i].label === objectToShow) {
                 push();
                 textSize(32);
                 fill(255, 255, 255);
                 text("Correct!", width/2, height/2);
+                timerStarted = true;
                 objectToShow = random(objects);
                 // play correct sound here
+                pop();
+            }
+            // if the timer reaches 0, the program pauses for a bit before starting up again
+            else if (timer === 0) {
+              state = "pause";
+              push();
+              textSize(32);
+              fill(255, 255, 255);
+              text("Times up!", width/2, height/2);
+              pop();
+            }
+            // once the pause is done, the program starts up again like normal
+            else if (setTimeout = 0){
+              timerStarted = true;
+              objectToShow = random(objects);
+              running();
             }
     }
   }
 }
 
+// allows for every recognizable object to be highlighted on the screen
 function highlightObject(object) {
+  // Get the emoji for this object label (from the JSON)
+  let emoji = emojis[object.label];
+
   // Display a box around it
   push();
   noFill();
