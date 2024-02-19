@@ -20,7 +20,7 @@ let predictions = [];
 
 // defining the specific objects that needed to be found
 let objectToShow = "cell phone";
-let objects = ["scissors", "headphones", "an apple", "a book", "a chair", "a backpack"];
+let objects = ["scissors", "headphones", "apple", "book", "chair", "backpack", "pencil", "calculator", "bottle", "remote"];
 
 // the emoji mapping
 let emojis = undefined;
@@ -29,11 +29,19 @@ let emojis = undefined;
 let timer = 20;
 let timerStarted = false;
 
+// variables for the sounds
+let correct;
+let incorrect;
+let waiting;
+
 /**
 Inputting and defining sounds and images
 */
 function preload() {
   emojis = loadJSON(`assets/cocossd-emoji-mapping.json`);
+  correct = loadSound("assets/sounds/correct.mp3");
+  incorrect = loadSound("assets/sounds/incorrect.mp3");
+  waiting = loadSound("assets/sounds/waiting.mp3");
 }
 
 
@@ -43,19 +51,26 @@ Gives the computer the ability to run ml5 and allows the cocossd camera to funct
 function setup() {
   createCanvas(840, 680);
 
+  userStartAudio();
+  correct.setVolume(0.5);
+  incorrect.setVolume(0.5);
+  waiting.setVolume(0.2);
+
   // Start webcam and hide the resulting HTML element
   video = createCapture(VIDEO);
   video.hide();
 
   // Start the CocoSsd model and when it's ready start detection
   // and switch to the running state
-  cocossd = ml5.objectDetector('cocossd', {}, function() {
+  cocossd = ml5.objectDetector('cocossd', {}, function () {
     // Ask CocoSsd to start detecting objects, calls gotResults
     // if it finds something
     cocossd.detect(video, gotResults);
     // Switch to the running state
     state = `running`;
   });
+
+  waiting.play();
 }
 
 // resets the timer once it enters a new state
@@ -94,7 +109,12 @@ function draw() {
     timerActive();
   }
   if (state === `pause`) {
-    setTimeout(endPause, 5000);
+    console.log(`paused...`)
+    push();
+    textSize(32);
+    fill(255, 255, 255);
+    text("Times up! Wait for restart.", width / 2, height / 2);
+    pop();
   }
 
   // allows for the timer to count down
@@ -105,14 +125,14 @@ function draw() {
 
 // creates the title state 
 function title() {
-    background(0);
-    push();
-    textSize(38);
-    fill(255, 255, 255);
-    textAlign(CENTER, CENTER);
-    text("Welcome to Search n' Show!", width/2, height/4);
-    text("The game will begin shortly...", width/2, height/1.5);
-    pop();
+  background(0);
+  push();
+  textSize(38);
+  fill(255, 255, 255);
+  textAlign(CENTER, CENTER);
+  text("Welcome to Search n' Show!", width / 2, height / 4);
+  text("The game will begin shortly...", width / 2, height / 1.5);
+  pop();
 }
 
 // the transition phase between the title and running states
@@ -139,9 +159,6 @@ function timerActive() {
   pop();
 }
 
-function endPause() {
-  state = `active`;
-}
 
 // the running program: does not highlight a "person", checks if the objects 
 // shown on screen are the objects that needed to be shown, and checks if the correct object is found in time
@@ -149,52 +166,45 @@ function running() {
   // Display the webcam
   image(video, 0, 0, width, height);
 
+  // waiting.play();
   timerActive();
   push();
   textSize(32);
   fill(255, 255, 255);
-  text(`Find: ${objectToShow}`, 380, height/9);
+  text(`Find: ${objectToShow}`, 380, height / 9);
   timerStarted = true;
   // play mysterious sound here
   pop();
 
   // Check if there currently predictions to display
   if (predictions) {
-        // If so run through the array of predictions
-        console.log(predictions);
-        for (let i = 0; i < predictions.length; i++) {
-            // Get the object predicted
-            let object = predictions[i];
-            if (predictions[i].label !== "person" && predictions[i].confidence >= 0.6) {
-                // Highlight it on the canvas
-                highlightObject(object);
-            }
-            // checks of the label is the same as the object needed to be found
-            if (predictions[i].label === objectToShow) {
-                push();
-                textSize(32);
-                fill(255, 255, 255);
-                text("Correct!", width/2, height/2);
-                timerStarted = true;
-                objectToShow = random(objects);
-                // play correct sound here
-                pop();
-            }
-            // if the timer reaches 0, the program pauses for a bit before starting up again
-            else if (timer === 0) {
-              state = "pause";
-              push();
-              textSize(32);
-              fill(255, 255, 255);
-              text("Times up!", width/2, height/2);
-              pop();
-            }
-            // once the pause is done, the program starts up again like normal
-            // else if (setTimeout = 0){
-            //   timerStarted = true;
-            //   objectToShow = random(objects);
-            //   running();
-            // }
+    // If so run through the array of predictions
+    console.log(predictions);
+    for (let i = 0; i < predictions.length; i++) {
+      // Get the object predicted
+      let object = predictions[i];
+      if (predictions[i].label !== "person" && predictions[i].confidence >= 0.6) {
+        // Highlight it on the canvas
+        highlightObject(object);
+      }
+      // checks of the label is the same as the object needed to be found
+      if (predictions[i].label === objectToShow) {
+        push();
+        textSize(32);
+        fill(255, 255, 255);
+        text("Correct!", width / 2, height / 2);
+        timerStarted = true;
+        objectToShow = random(objects);
+        correct.play();
+        pop();
+      }
+      // if the timer reaches 0, the program pauses for a bit before starting up again
+      else if (timer === 0) {
+        state = "pause";
+        setTimeout(unPause, 3000);
+        incorrect.play();
+      }
+
     }
   }
 }
@@ -220,7 +230,15 @@ function highlightObject(object) {
 }
 
 function mousePressed() {
-    if (state === "title") {
-        state = "loading";
-    }
+  if (state === "title") {
+    state = "loading";
+  }
+}
+
+// once the pause is done, the program starts up again like normal
+function unPause() {
+  timer = 20;
+  timerStarted = false;
+  objectToShow = random(objects);
+  state = `running`
 }
