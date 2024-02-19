@@ -20,7 +20,7 @@ let predictions = [];
 
 // defining the specific objects that needed to be found
 let objectToShow = "cell phone";
-let objects = ["cell phone", "scissors", "headphones", "an apple"];
+let objects = ["scissors", "headphones", "an apple", "a book", "a chair", "a backpack"];
 
 // the emoji mapping
 let emojis = undefined;
@@ -190,11 +190,11 @@ function running() {
               pop();
             }
             // once the pause is done, the program starts up again like normal
-            else if (setTimeout = 0){
-              timerStarted = true;
-              objectToShow = random(objects);
-              running();
-            }
+            // else if (setTimeout = 0){
+            //   timerStarted = true;
+            //   objectToShow = random(objects);
+            //   running();
+            // }
     }
   }
 }
