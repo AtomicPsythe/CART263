@@ -20,7 +20,8 @@ let predictions = [];
 
 // defining the specific objects that needed to be found
 let objectToShow = "cell phone";
-let objects = ["scissors", "headphones", "apple", "book", "chair", "backpack", "pencil", "calculator", "bottle", "remote"];
+let objects = ["cell phone", "scissors"];
+// let objects = ["scissors", "apple", "book", "chair", "backpack", "mouse", "spoon", "keyboard", "bottle", "remote"];
 
 // the emoji mapping
 let emojis = undefined;
@@ -49,7 +50,7 @@ function preload() {
 Gives the computer the ability to run ml5 and allows the cocossd camera to function
 */
 function setup() {
-  createCanvas(840, 680);
+  createCanvas(640, 480);
 
   userStartAudio();
   correct.setVolume(0.5);
@@ -70,6 +71,7 @@ function setup() {
     state = `running`;
   });
 
+  // plays and loops the background music
   waiting.play();
   waiting.loop();
 }
@@ -103,7 +105,7 @@ function draw() {
   if (state === `loading`) {
     loading();
   }
-  else if (state === `running`) {
+  if (state === `running`) {
     running();
   }
   if (state === `active`) {
@@ -114,8 +116,11 @@ function draw() {
     push();
     textSize(32);
     fill(255, 255, 255);
-    text("Times up! Wait for restart.", width / 2, height / 2);
+    text("Times up! Wait for restart.", width / 3, height / 2);
     pop();
+  }
+  if (state === "ending") {
+    ending();
   }
 
   // allows for the timer to count down
@@ -151,12 +156,12 @@ function loading() {
 // creates the UI for the timer
 function timerActive() {
   push();
-  rect(660, 130, 90, 50);
+  rect(460, 130, 90, 50);
   textSize(30);
-  text("TIME", 670, 165);
-  circle(710, 70, 100);
+  text("TIME", 470, 165);
+  circle(510, 70, 100);
   textSize(34);
-  text(timer, 690, 80);
+  text(timer, 490, 80);
   pop();
 }
 
@@ -167,48 +172,69 @@ function running() {
   // Display the webcam
   image(video, 0, 0, width, height);
 
-  // waiting.play();
   timerActive();
   push();
   textSize(32);
   fill(255, 255, 255);
-  text(`Find: ${objectToShow}`, 380, height / 9);
+  text(`Find: ${objectToShow}`, 180, height / 9);
   timerStarted = true;
-  // play mysterious sound here
   pop();
 
-  // Check if there currently predictions to display
-  if (predictions) {
-    // If so run through the array of predictions
-    console.log(predictions);
-    for (let i = 0; i < predictions.length; i++) {
-      // Get the object predicted
-      let object = predictions[i];
-      if (predictions[i].label !== "person" && predictions[i].confidence >= 0.6) {
-        // Highlight it on the canvas
-        highlightObject(object);
-      }
-      // checks of the label is the same as the object needed to be found
-      if (predictions[i].label === objectToShow) {
-        timer = 20;
-        push();
-        textSize(32);
-        fill(255, 255, 255);
-        text("Correct!", width / 2, height / 2);
-        timerStarted = true;
-        objectToShow = random(objects);
-        correct.play();
-        pop();
-      }
-      // if the timer reaches 0, the program pauses for a bit before starting up again
-      else if (timer === 0) {
-        state = "pause";
-        setTimeout(unPause, 3000);
-        incorrect.play();
-      }
+  if (objects.length > 0) {
+    console.log(objects);
+  }
 
+  if (objects.length > 0) {
+    // Check if there currently predictions to display
+    if (predictions) {
+      // If so run through the array of predictions
+      // console.log(predictions);
+      for (let i = 0; i < predictions.length; i++) {
+        // Get the object predicted
+        let object = predictions[i];
+        if (predictions[i].label !== "person" && predictions[i].confidence >= 0.6) {
+          // Highlight it on the canvas
+          highlightObject(object);
+        }
+        // checks of the label is the same as the object needed to be found
+        if (predictions[i].label === objectToShow) {
+          timer = 20;
+          push();
+          textSize(32);
+          fill(255, 255, 255);
+          text("Correct!", width / 3, height / 2);
+          correct.play();
+          timerStarted = true;
+          objects.splice(objects.indexOf(objectToShow), 1);
+          objectToShow = random(objects);
+          pop();
+          console.log(`Found ${objectToShow} which is at ${i} with confidence ${predictions[i].confidence}`)
+          break;
+        }
+        // if the timer reaches 0, the program pauses for a bit before starting up again
+        else if (timer === 0) {
+          state = "pause";
+          setTimeout(unPause, 3000);
+          incorrect.play();
+        }
+      }
     }
   }
+  else {
+    ending();
+  }
+}
+
+// shows the ending screen once all of the objects are found
+function ending() {
+  background(0);
+  push();
+  textSize(38);
+  fill(255, 255, 255);
+  textAlign(CENTER, CENTER);
+  text("Congrats on finding every object!", width / 2, height / 4);
+  text("Refresh the page to play again :)", width / 2, height / 1.5);
+  pop();
 }
 
 // allows for every recognizable object to be highlighted on the screen
@@ -216,19 +242,21 @@ function highlightObject(object) {
   // Get the emoji for this object label (from the JSON)
   let emoji = emojis[object.label];
 
-  // Display a box around it
-  push();
-  noFill();
-  stroke(255, 255, 0);
-  rect(object.x, object.y, object.width, object.height);
-  pop();
-  // Display the label and confidence in the center of the box
-  push();
-  textSize(18);
-  fill(255, 255, 0);
-  textAlign(CENTER, CENTER);
-  text(`${object.label}, ${object.confidence.toFixed(2)}`, object.x + object.width / 2, object.y + object.height / 2);
-  pop();
+  if (emoji) {
+    // Display a box around it
+    push();
+    noFill();
+    stroke(255, 255, 0);
+    rect(object.x, object.y, object.width, object.height);
+    pop();
+    // Display the label and confidence in the center of the box
+    push();
+    textSize(18);
+    fill(255, 255, 0);
+    textAlign(CENTER, CENTER);
+    text(`${emoji}, ${object.label}, ${object.confidence.toFixed(2)}`, object.x + object.width / 2, object.y + object.height / 2);
+    pop();
+  }
 }
 
 function mousePressed() {
