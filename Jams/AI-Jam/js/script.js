@@ -71,6 +71,7 @@ function setup() {
   });
 
   waiting.play();
+  waiting.loop();
 }
 
 // resets the timer once it enters a new state
@@ -189,6 +190,7 @@ function running() {
       }
       // checks of the label is the same as the object needed to be found
       if (predictions[i].label === objectToShow) {
+        timer = 20;
         push();
         textSize(32);
         fill(255, 255, 255);
