@@ -20,20 +20,21 @@ let predictions = [];
 
 // defining the specific objects that needed to be found
 let objectToShow = "cell phone";
-let objects = ["cell phone", "scissors"];
-// let objects = ["scissors", "apple", "book", "chair", "backpack", "mouse", "spoon", "keyboard", "bottle", "remote"];
+// let objects = ["cell phone", "scissors"];
+let objects = ["scissors", "apple", "book", "chair", "backpack", "spoon", "keyboard", "bottle", "remote"];
 
 // the emoji mapping
 let emojis = undefined;
 
 // the timer and points variables
-let timer = 20;
+let timer = 15;
 let timerStarted = false;
 
 // variables for the sounds
 let correct;
 let incorrect;
 let waiting;
+let endingYippie;
 
 /**
 Inputting and defining sounds and images
@@ -43,6 +44,7 @@ function preload() {
   correct = loadSound("assets/sounds/correct.mp3");
   incorrect = loadSound("assets/sounds/incorrect.mp3");
   waiting = loadSound("assets/sounds/waiting.mp3");
+  endingYippie = loadSound("assets/sounds/children yippie.mp3");
 }
 
 
@@ -56,6 +58,7 @@ function setup() {
   correct.setVolume(0.5);
   incorrect.setVolume(0.5);
   waiting.setVolume(0.2);
+  endingYippie.setVolume(0.5);
 
   // Start webcam and hide the resulting HTML element
   video = createCapture(VIDEO);
@@ -78,7 +81,7 @@ function setup() {
 
 // resets the timer once it enters a new state
 function reset() {
-  timer = 20;
+  timer = 15;
 }
 
 // checks if there is any errors in the functionality of the program
@@ -116,7 +119,7 @@ function draw() {
     push();
     textSize(32);
     fill(255, 255, 255);
-    text("Times up! Wait for restart.", width / 3, height / 2);
+    text("Times up! Wait for restart.", width / 4, height / 2);
     pop();
   }
   if (state === "ending") {
@@ -198,7 +201,7 @@ function running() {
         }
         // checks of the label is the same as the object needed to be found
         if (predictions[i].label === objectToShow) {
-          timer = 20;
+          timer = 15;
           push();
           textSize(32);
           fill(255, 255, 255);
@@ -210,6 +213,14 @@ function running() {
           pop();
           console.log(`Found ${objectToShow} which is at ${i} with confidence ${predictions[i].confidence}`)
           break;
+        }
+        if (timer === 5) {
+          waiting.rate(2);
+          tint(255, 0, 0, 100);
+        }
+        else if (timer === 20) {
+          waiting.rate(1);
+          noTint();
         }
         // if the timer reaches 0, the program pauses for a bit before starting up again
         else if (timer === 0) {
@@ -235,6 +246,8 @@ function ending() {
   text("Congrats on finding every object!", width / 2, height / 4);
   text("Refresh the page to play again :)", width / 2, height / 1.5);
   pop();
+
+  endingYippie.play();
 }
 
 // allows for every recognizable object to be highlighted on the screen
@@ -267,8 +280,10 @@ function mousePressed() {
 
 // once the pause is done, the program starts up again like normal
 function unPause() {
-  timer = 20;
+  timer = 15;
   timerStarted = false;
   objectToShow = random(objects);
   state = `running`
+  waiting.rate(1);
+  noTint();
 }
