@@ -166,6 +166,7 @@ function timerActive() {
   textSize(34);
   text(timer, 490, 80);
   pop();
+  
 }
 
 
@@ -176,9 +177,10 @@ function running() {
   image(video, 0, 0, width, height);
 
   timerActive();
+  rect(160, 20, 260, 50);
   push();
   textSize(32);
-  fill(255, 255, 255);
+  fill(0);
   text(`Find: ${objectToShow}`, 180, height / 9);
   timerStarted = true;
   pop();
