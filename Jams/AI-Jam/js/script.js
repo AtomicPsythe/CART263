@@ -232,7 +232,8 @@ function running() {
     }
   }
   else {
-    ending();
+    state = "ending";
+    endingYippie.play();
   }
 }
 
@@ -246,8 +247,6 @@ function ending() {
   text("Congrats on finding every object!", width / 2, height / 4);
   text("Refresh the page to play again :)", width / 2, height / 1.5);
   pop();
-
-  endingYippie.play();
 }
 
 // allows for every recognizable object to be highlighted on the screen
