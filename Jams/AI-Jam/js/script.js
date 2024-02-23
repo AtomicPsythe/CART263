@@ -1,9 +1,11 @@
 /**
 AI Jam
 Foti Aivaliklis
-*/
 
-// change canvas size to phone size (makes it interactive)
+Description: A prototype game using the Image Detector from ml5 where your goal is to find and show the correct item on the screen.
+             Once you have found every correct item, you are victorious and can play again, however if you do not find the correct items 
+             and run out of time, then you lose and must try again. Have fun and good luck!
+*/
 
 "use strict";
 
@@ -35,7 +37,7 @@ let incorrect;
 let waiting;
 let endingYippie;
 
-// bad counter
+// bad counter that tracks how many times you have run out of time
 let badCounter = 0;
 
 /**
@@ -56,6 +58,7 @@ Gives the computer the ability to run ml5 and allows the cocossd camera to funct
 function setup() {
   createCanvas(640, 480);
 
+  // makes the audio playable and sets the correct volume for each audio file
   userStartAudio();
   correct.setVolume(0.5);
   incorrect.setVolume(0.5);
@@ -127,6 +130,9 @@ function draw() {
   if (state === "ending") {
     ending();
   }
+  if (state === "ending2") {
+    ending2();
+  }
 
   // allows for the timer to count down
   if (frameCount % 60 === 0 && timer > 0 && timerStarted) {
@@ -188,10 +194,6 @@ function running() {
   pop();
 
   if (objects.length > 0) {
-    console.log(objects);
-  }
-
-  if (objects.length > 0) {
     // Check if there currently predictions to display
     if (predictions) {
       // If so run through the array of predictions
@@ -226,7 +228,7 @@ function running() {
           waiting.rate(1);
           noTint();
         }
-        // if the timer reaches 0, the program pauses for a bit before starting up again
+        // if the timer reaches 0, the program pauses for a bit before starting up again and you get one stack on the bad counter
         else if (timer === 0) {
           badCounter++;
           console.log(badCounter);
@@ -234,12 +236,14 @@ function running() {
           setTimeout(unPause, 3000);
           incorrect.play();
         }
+        // if you run out of time twice you get a game over screen
         else if (badCounter === 2) {
           state = "ending";
         }
       }
     }
   }
+  // goes to the correct ending state and plays a victorious sound
   else {
     state = "ending";
     endingYippie.play();
@@ -255,6 +259,18 @@ function ending() {
   textAlign(CENTER, CENTER);
   text("Congrats on finding every object!", width / 2, height / 4);
   text("Refresh the page to play again :)", width / 2, height / 1.5);
+  pop();
+}
+
+// shows the game over ending screen if you run out of time on two occasions
+function ending2() {
+  background(0);
+  push();
+  textSize(38);
+  fill(255, 255, 255);
+  textAlign(CENTER, CENTER);
+  text("You ran out of time and couldn't find every \n every object :(", width / 2, height / 4);
+  text("Refresh the page to try again :)", width / 2, height / 1.5);
   pop();
 }
 
