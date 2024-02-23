@@ -20,7 +20,6 @@ let predictions = [];
 
 // defining the specific objects that needed to be found
 let objectToShow = "cell phone";
-// let objects = ["cell phone", "scissors"];
 let objects = ["scissors", "apple", "book", "chair", "backpack", "spoon", "keyboard", "bottle", "remote"];
 
 // the emoji mapping
@@ -35,6 +34,9 @@ let correct;
 let incorrect;
 let waiting;
 let endingYippie;
+
+// bad counter
+let badCounter = 0;
 
 /**
 Inputting and defining sounds and images
@@ -226,9 +228,14 @@ function running() {
         }
         // if the timer reaches 0, the program pauses for a bit before starting up again
         else if (timer === 0) {
+          badCounter++;
+          console.log(badCounter);
           state = "pause";
           setTimeout(unPause, 3000);
           incorrect.play();
+        }
+        else if (badCounter === 2) {
+          state = "ending";
         }
       }
     }
