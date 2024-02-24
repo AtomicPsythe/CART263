@@ -220,10 +220,12 @@ function running() {
           console.log(`Found ${objectToShow} which is at ${i} with confidence ${predictions[i].confidence}`)
           break;
         }
+        // speeds up the background track and adds a red tint to the screen for added pressure
         if (timer === 5) {
           waiting.rate(2);
           tint(255, 0, 0, 100);
         }
+        // removes the sped up track and the red tint effect if the object is found after 5 seconds are remaining
         else if (timer === 20) {
           waiting.rate(1);
           noTint();
@@ -238,7 +240,7 @@ function running() {
         }
         // if you run out of time twice you get a game over screen
         else if (badCounter === 2) {
-          state = "ending";
+          state = "ending2";
         }
       }
     }
@@ -269,7 +271,7 @@ function ending2() {
   textSize(38);
   fill(255, 255, 255);
   textAlign(CENTER, CENTER);
-  text("You ran out of time and couldn't find every \n every object :(", width / 2, height / 4);
+  text("You ran out of time and \n couldn't find every object :(", width / 2, height / 4);
   text("Refresh the page to try again :)", width / 2, height / 1.5);
   pop();
 }
