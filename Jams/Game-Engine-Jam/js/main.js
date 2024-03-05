@@ -29,3 +29,14 @@ let config = {
   
   // Here we actually create the game using this configuration!
   let game = new Phaser.Game(config);
+
+// https://labs.phaser.io/index.html?dir=tilemap/&q=
+// https://www.emanueleferonato.com/2020/05/22/draw-a-card-from-your-hand-like-in-legends-of-runeterra-mobile-version/
+// https://www.emanueleferonato.com/2020/08/20/html5-deck-of-cards-management-updated-to-phaser-3/
+// https://arielroffe.quest/
+// https://github.com/konato-debug/pokemon-phaser
+// https://konato-debug.github.io/pokemon-phaser/
+// https://labs.phaser.io/view.html?src=src\actions\grid%20align%20overlap.js
+// https://blog.ourcade.co/posts/2020/phaser3-fog-of-war-field-of-view-roguelike/
+// https://phaser.io/news/2017/05/blackjack
+
