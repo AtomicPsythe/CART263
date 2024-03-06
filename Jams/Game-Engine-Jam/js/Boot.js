@@ -5,6 +5,19 @@ class Boot extends Phaser.Scene {
         key: `boot`
       });
     }
+
+    preload() {
+      this.loading.image("maze", "./assets/images/maze.png");
+      this.load.spritesheet("avatar", "assets/images/walk.png"), {
+        frameWidth: 16,
+        frameHeight: 16,
+        endFrame: 7
+      }
+
+      this.load.on("complete", () => {
+        this.scene.start("play");
+      });
+    }
   
     create() {
       let loadingTextStyle = {
