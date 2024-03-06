@@ -8,11 +8,11 @@ class Boot extends Phaser.Scene {
 
     preload() {
       this.load.image('maze', "assets/images/maze.png");
-      this.load.spritesheet("avatar", "assets/images/walk.png"), {
+      this.load.spritesheet("avatar", "assets/images/walk.png", {
         frameWidth: 32,
         frameHeight: 32,
-        endFrame: 9
-      }
+        endFrame: 7
+      });
 
       this.load.on("complete", () => {
         this.scene.start("play");

@@ -15,14 +15,14 @@ class Play extends Phaser.Scene {
         //     quantity: 1
         // })
 
-        this.avatar = this.add.sprite(100, 100, "avatar");
+        this.avatar = this.add.sprite(50, 590, "avatar");
         this.anims.create({
             key: "avatar-moving",
             frames: this.anims.generateFrameNumbers("avatar", {
                 start: 0,
-                end: 31
+                end: 7
             }),
-            frameRate: 24, 
+            frameRate: 12, 
             repeat: -1
         });
 
