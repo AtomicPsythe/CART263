@@ -9,11 +9,11 @@ class Play extends Phaser.Scene {
         console.log("Play scene created!");
 
         this.add.image(400, 300, 'maze');
-        this.maze = this.physics.add.group({
-            key: "maze",
-            immovable: true,
-            quantity: 1
-        })
+        // this.maze = this.physics.add.group({
+        //     key: "maze",
+        //     immovable: true,
+        //     quantity: 1
+        // })
 
         this.avatar = this.add.sprite(100, 100, "avatar");
         this.anims.create({
