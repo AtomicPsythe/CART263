@@ -6,6 +6,7 @@ class Play extends Phaser.Scene {
     }
 
     create() {
+        // this.cameras.main.fadeIn(1000, 0, 0, 0);
         console.log("Play scene created!");
         this.maze = this.physics.add.sprite(400, 300, "maze");
         this.avatar = this.physics.add.sprite(150, 590, "avatar");

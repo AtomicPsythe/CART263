@@ -1,5 +1,4 @@
 class Boot extends Phaser.Scene {
-
     constructor() {
       super({
         key: `boot`
@@ -8,7 +7,7 @@ class Boot extends Phaser.Scene {
 
     preload() {
       this.load.image('maze', "assets/images/maze.png");
-      this.load.spritesheet("avatar", "assets/images/walk.png", {
+      this.load.spritesheet("avatar", "assets/images/avatar.png", {
         frameWidth: 32,
         frameHeight: 32,
         endFrame: 7
