@@ -9,8 +9,34 @@ class Play extends Phaser.Scene {
         // this.cameras.main.fadeIn(1000, 0, 0, 0);
         console.log("Play scene created!");
         this.maze = this.physics.add.sprite(400, 300, "maze");
+        // let rt = this.make.renderTexture({
+        //     width: 600,
+        //     height: 1000
+        // }, true);
+        // rt.fill(0x000000, 1);
+        // rt.draw("maze");
+        // rt.setTint(0x0a2948);
+
+        // let vision = this.make.image({
+        //     x: this.avatar.x,
+        //     y: this.avatar.y,
+        //     key: 'vision',
+        //     add: false
+        // });
+
+        // vision.scale = 2.5
+        // rt.mask = new Phaser.Display.Masks.BitmapMask(this, vision)
+	    // rt.mask.invertAlpha = true
+
+        // if (this.vision) {
+		//     this.vision.x = this.player.x
+		//     this.vision.y = this.player.y
+	    // };
+
         this.avatar = this.physics.add.sprite(50, 590, "avatar");
         console.log(this.avatar);
+
+        this.physics.add.collider(this.avatar, this.maze);
         
         this.createAnimations();
 
