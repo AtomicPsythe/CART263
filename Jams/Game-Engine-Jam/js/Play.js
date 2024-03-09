@@ -9,12 +9,10 @@ class Play extends Phaser.Scene {
         // this.cameras.main.fadeIn(1000, 0, 0, 0);
         console.log("Play scene created!");
         this.maze = this.physics.add.sprite(400, 300, "maze");
-        this.avatar = this.physics.add.sprite(150, 590, "avatar");
+        this.avatar = this.physics.add.sprite(50, 590, "avatar");
         console.log(this.avatar);
         
         this.createAnimations();
-
-        this.avatar.setVelocityX(100);
 
         this.avatar.play("idle");
 
@@ -59,7 +57,7 @@ class Play extends Phaser.Scene {
             key: "moving",
             frames: this.anims.generateFrameNumbers("avatar", {
                 start: 0,
-                end: 7
+                end: 31
             }),
             frameRate: 12, 
             repeat: -1

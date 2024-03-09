@@ -8,9 +8,9 @@ class Boot extends Phaser.Scene {
     preload() {
       this.load.image('maze', "assets/images/maze.png");
       this.load.spritesheet("avatar", "assets/images/avatar.png", {
-        frameWidth: 32,
-        frameHeight: 32,
-        endFrame: 7
+        frameWidth: 80,
+        frameHeight: 80,
+        endFrame: 31
       });
 
       this.load.on("complete", () => {
@@ -29,7 +29,7 @@ class Boot extends Phaser.Scene {
       this.loadingText = this.add.text(100, 100, loadingString, loadingTextStyle);
   
       // Switch to the scene with the key of "play"
-      this.scene.start(`play`);
+      this.scene.start(`title`);
     }
   
     update() {
