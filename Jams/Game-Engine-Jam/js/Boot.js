@@ -12,7 +12,7 @@ class Boot extends Phaser.Scene {
         frameHeight: 80,
         endFrame: 31
       });
-      this.load.image("full_tilemap", "assets/images/full_tilemap.png");
+      this.load.image("full tilemap", "assets/images/full tilemap.png");
       this.load.tilemapTiledJSON("tileset_map", "assets/images/tileset_map.json");
 
       this.load.on("complete", () => {
