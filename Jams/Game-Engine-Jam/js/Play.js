@@ -11,12 +11,11 @@ class Play extends Phaser.Scene {
         // this.maze = this.physics.add.sprite(400, 300, "maze");
         // this.maze.setImmovable(true);
         this.add.image(100, 100, 'base_tiles');
-        let map = this.make.tilemap({
-            key: "tilemap"
-        });
-        let tileset = map.addTilesetImage("full tileset", "base_tiles");
-        this.map.createStaticLayer("background", tileset);
-        this.map.createStaticLayer("ground", tileset);
+        let map = this.make.tilemap({key: "base_tiles"});
+        let tileset = map.addTilesetImage("tileset", "base_tiles");
+        // let wallsLayer = map.createLayer("background", tileset, 0, 0)
+        map.createLayer("background", tileset);
+        map.createLayer("collision 2", tileset);
 
         this.avatar = this.physics.add.sprite(50, 590, "avatar");
         console.log(this.avatar);
