@@ -6,9 +6,9 @@ class Play extends Phaser.Scene {
     }
 
     create() {
-        this.add.image(0, 0, "full_tileset");
-        let map = this.make.tilemap({ key: "tilemap"});
-        let tileset = map.addTilesetImage("full_tileset", "tileset_map");
+        this.add.image(0, 0, "full tilemap");
+        let map = this.make.tilemap({ key: "tileset_map"});
+        let tileset = map.addTilesetImage("full tilemap", "tileset_map");
         map.createLayer("background", tileset);
         map.createLayer("maze", tileset);
         // this.cameras.main.fadeIn(1000, 0, 0, 0);
