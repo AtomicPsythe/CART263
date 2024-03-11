@@ -6,16 +6,14 @@ class Play extends Phaser.Scene {
     }
 
     create() {
+        this.add.image(0, 0, "full_tileset");
+        let map = this.make.tilemap({ key: "tilemap"});
+        let tileset = map.addTilesetImage("full_tileset", "tileset_map");
+        map.createLayer("background", tileset);
+        map.createLayer("maze", tileset);
         // this.cameras.main.fadeIn(1000, 0, 0, 0);
         console.log("Play scene created!");
-        // this.maze = this.physics.add.sprite(400, 300, "maze");
-        // this.maze.setImmovable(true);
-        this.add.image(100, 100, 'base_tiles');
-        let map = this.make.tilemap({key: "base_tiles"});
-        let tileset = map.addTilesetImage("tileset", "base_tiles");
-        let wallsLayer = map.createLayer("background", tileset, 0, 0)
-        // map.createLayer("background", tileset);
-        // map.createLayer("collision 2", tileset);
+        this.maze = this.physics.add.sprite(400, 300, "maze");
 
         this.avatar = this.physics.add.sprite(50, 590, "avatar");
         console.log(this.avatar);
@@ -23,9 +21,8 @@ class Play extends Phaser.Scene {
         this.createAnimations();
         this.avatar.play("idle");
         this.avatar.setCollideWorldBounds(true);
-        // this.maze.setCollideWorldBounds(true);
 
-        this.physics.add.collider(this.avatar, this.maze);
+        // this.physics.add.collider(this.avatar, this.maze);
 
         this.cursors = this.input.keyboard.createCursorKeys();
     }

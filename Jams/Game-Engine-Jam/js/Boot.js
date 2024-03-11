@@ -7,13 +7,13 @@ class Boot extends Phaser.Scene {
 
     preload() {
       // this.load.image('maze', "assets/images/maze.png");
-      this.load.image("base_tiles", "assets/images/full tilemap.png");
-      this.load.tilemapTiledJSON("maze", "assets/images/tileset.json");
       this.load.spritesheet("avatar", "assets/images/avatar.png", {
         frameWidth: 80,
         frameHeight: 80,
         endFrame: 31
       });
+      this.load.image("full_tilemap", "assets/images/full_tilemap.png");
+      this.load.tilemapTiledJSON("tileset_map", "assets/images/tileset_map.json");
 
       this.load.on("complete", () => {
         this.scene.start("title");
