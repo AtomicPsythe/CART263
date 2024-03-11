@@ -1,4 +1,12 @@
 { "compressionlevel":-1,
+ "editorsettings":
+    {
+     "export":
+        {
+         "format":"json",
+         "target":"tileset map for game engine jam..tmj"
+        }
+    },
  "height":19,
  "infinite":false,
  "layers":[
