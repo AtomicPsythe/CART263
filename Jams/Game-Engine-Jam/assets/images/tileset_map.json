@@ -4,7 +4,7 @@
      "export":
         {
          "format":"json",
-         "target":"..\/..\/..\/..\/..\/..\/..\/OneDrive - Concordia University - Canada\/Desktop\/Foti's Documents\/Computation Arts - Year 1\/tileset map for game engine jam..tmj"
+         "target":"tileset.json"
         }
     },
  "height":19,
@@ -114,6 +114,19 @@
         {
          "firstgid":26,
          "source":"..\/..\/..\/..\/..\/..\/..\/OneDrive - Concordia University - Canada\/Desktop\/Foti's Documents\/Computation Arts - Year 1\/tiles 3.tsx"
+        }, 
+        {
+         "columns":4,
+         "firstgid":42,
+         "image":"..\/..\/..\/..\/..\/..\/..\/Downloads\/full tilemap.png",
+         "imageheight":128,
+         "imagewidth":144,
+         "margin":0,
+         "name":"maze_tiles",
+         "spacing":0,
+         "tilecount":16,
+         "tileheight":32,
+         "tilewidth":32
         }],
  "tilewidth":32,
  "type":"map",
