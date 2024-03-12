@@ -22,10 +22,10 @@ class Play extends Phaser.Scene {
         this.avatar.setCollideWorldBounds(true);
         this.cursors = this.input.keyboard.createCursorKeys();
 
-        const width = this.scale.width
+        let width = this.scale.width
 	    
         // make a RenderTexture that is the size of the screen
-        const rt = this.make.renderTexture({
+        let rt = this.make.renderTexture({
             width: 1800,
             height: 1200
         }, true)
@@ -36,7 +36,7 @@ class Play extends Phaser.Scene {
         // set a dark blue tint
         rt.setTint(0x0a2948)
 
-        const vision = this.make.image({
+        let vision = this.make.image({
             x: this.avatar.x,
             y: this.avatar.y,
             key: 'vision',
