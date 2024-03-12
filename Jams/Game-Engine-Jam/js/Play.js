@@ -7,15 +7,23 @@ class Play extends Phaser.Scene {
 
     create() {
         this.add.image(0, 0, "full tilemap");
-        let map = this.make.tilemap({ key: "tileset_map"});
-        let tileset = map.addTilesetImage("full tilemap", "tileset_map");
+
+        let map = this.make.tilemap({ key: "tilemap"});
+
+        let tileset = map.addTilesetImage("tileset", "tileset_image");
+
         map.createLayer("background", tileset);
-        map.createLayer("maze", tileset);
+        // map.createLayer("maze", tileset);
+
+        let maze = map.createLayer("maze", tileset);
+        maze.setCollisionByProperty({ collides: true});
+        this.avatar = this.physics.add.sprite(50, 590, "avatar");
+        this.physics.add.collider(this.avatar, maze);
+
         // this.cameras.main.fadeIn(1000, 0, 0, 0);
         console.log("Play scene created!");
-        this.maze = this.physics.add.sprite(400, 300, "maze");
+        // this.maze = this.physics.add.sprite(400, 300, "maze");
 
-        this.avatar = this.physics.add.sprite(50, 590, "avatar");
         console.log(this.avatar);
 
         this.createAnimations();

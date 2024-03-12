@@ -10,10 +10,12 @@ class Boot extends Phaser.Scene {
       this.load.spritesheet("avatar", "assets/images/avatar.png", {
         frameWidth: 80,
         frameHeight: 80,
-        endFrame: 31
+        endFrame: 31,
+        margin: 32,
+        spacing: 67
       });
-      this.load.image("full tilemap", "assets/images/full tilemap.png");
-      this.load.tilemapTiledJSON("tileset_map", "assets/images/tileset_map.json");
+      this.load.image("tileset_image", "assets/tilemap/tileset.png");
+      this.load.tilemapTiledJSON("tilemap", "assets/tilemap/tilemap.tmj");
 
       this.load.on("complete", () => {
         this.scene.start("title");
@@ -31,7 +33,7 @@ class Boot extends Phaser.Scene {
       this.loadingText = this.add.text(100, 100, loadingString, loadingTextStyle);
   
       // Switch to the scene with the key of "title"
-      this.scene.start(`title`);
+      // this.scene.start(`title`);
     }
   
     update() {
