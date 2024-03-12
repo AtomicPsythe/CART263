@@ -7,32 +7,45 @@ class Play extends Phaser.Scene {
 
     create() {
         this.add.image(0, 0, "full tilemap");
-
         let map = this.make.tilemap({ key: "tilemap"});
-
         let tileset = map.addTilesetImage("tileset", "tileset_image");
-
         map.createLayer("background", tileset);
-        // map.createLayer("maze", tileset);
 
         let maze = map.createLayer("maze", tileset);
         maze.setCollisionByProperty({ collides: true});
         this.avatar = this.physics.add.sprite(50, 590, "avatar");
         this.physics.add.collider(this.avatar, maze);
-
-        // this.cameras.main.fadeIn(1000, 0, 0, 0);
         console.log("Play scene created!");
-        // this.maze = this.physics.add.sprite(400, 300, "maze");
-
-        console.log(this.avatar);
 
         this.createAnimations();
         this.avatar.play("idle");
         this.avatar.setCollideWorldBounds(true);
-
-        // this.physics.add.collider(this.avatar, this.maze);
-
         this.cursors = this.input.keyboard.createCursorKeys();
+
+        const width = this.scale.width
+	    
+        // make a RenderTexture that is the size of the screen
+        const rt = this.make.renderTexture({
+            width: 1800,
+            height: 1200
+        }, true)
+
+        // fill it with black
+        rt.fill(0x000000, 1)
+
+        // set a dark blue tint
+        rt.setTint(0x0a2948)
+
+        const vision = this.make.image({
+            x: this.avatar.x,
+            y: this.avatar.y,
+            key: 'vision',
+            add: false
+        })
+          vision.scale = 2.5
+        
+          rt.mask = new Phaser.Display.Masks.BitmapMask(this, vision)
+          rt.mask.invertAlpha = true
     }
 
     update() {
@@ -89,4 +102,14 @@ class Play extends Phaser.Scene {
         };
         this.anims.create(idleAnimationConfig);
     }
+
+    update() {
+        if (this.vision)
+        {
+            this.vision.x = this.avatar.x
+            this.vision.y = this.avatar.y
+        }
+    }
 }
+
+

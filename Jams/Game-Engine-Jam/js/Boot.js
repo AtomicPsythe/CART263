@@ -14,6 +14,7 @@ class Boot extends Phaser.Scene {
         margin: 32,
         spacing: 64
       });
+
       this.load.image("tileset_image", "assets/tilemap/tileset.png");
       this.load.tilemapTiledJSON("tilemap", "assets/tilemap/tilemap.json");
 
