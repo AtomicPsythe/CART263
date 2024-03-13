@@ -36,20 +36,25 @@ class Play extends Phaser.Scene {
         // set a dark blue tint
         rt.setTint(0x0a2948)
 
-        let vision = this.make.image({
+        this.vision = this.make.image({
             x: this.avatar.x,
             y: this.avatar.y,
             key: 'vision',
             add: false
         })
-          vision.scale = 2.5
-        
-          rt.mask = new Phaser.Display.Masks.BitmapMask(this, vision)
-          rt.mask.invertAlpha = true
+        this.vision.scale = 2.5
+
+        rt.mask = new Phaser.Display.Masks.BitmapMask(this, this.vision)
+        rt.mask.invertAlpha = true
     }
 
     update() {
         this.handleInput();
+        if (this.vision)
+        {
+            this.vision.x = this.avatar.x
+            this.vision.y = this.avatar.y
+        }
     }
 
     handleInput() {
@@ -101,14 +106,6 @@ class Play extends Phaser.Scene {
             repeat: 0
         };
         this.anims.create(idleAnimationConfig);
-    }
-
-    update() {
-        if (this.vision)
-        {
-            this.vision.x = this.avatar.x
-            this.vision.y = this.avatar.y
-        }
     }
 }
 
