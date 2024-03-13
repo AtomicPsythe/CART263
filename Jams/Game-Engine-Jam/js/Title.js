@@ -12,10 +12,10 @@ class Title extends Phaser.Scene {
     create() {
         let background = this.add.sprite(400, 300, "titleImage");
 
-        let titleText = this.add.text(250, 500, "Press space to start!", {
+        let titleText = this.add.text(510, 560, "Press space to start!", {
             fontFamily: "Arial",
             fontSize: 30, 
-            color: "#000000"
+            color: "#FFFFFF"
         });
 
  
