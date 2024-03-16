@@ -5,6 +5,10 @@ class Play extends Phaser.Scene {
         });
     }
 
+    preload() {
+        this.load.audio("walking_music", "/assets/sounds/walking.mp3");
+    }
+
     create() {
         this.add.image(0, 0, "full tilemap");
         let map = this.make.tilemap({ key: "tilemap"});
@@ -46,6 +50,10 @@ class Play extends Phaser.Scene {
 
         rt.mask = new Phaser.Display.Masks.BitmapMask(this, this.vision)
         rt.mask.invertAlpha = true
+
+        this.walkingSound = this.sound.add("walking_music", {
+            volume: 0.75
+        });
     }
 
     update() {
@@ -60,9 +68,11 @@ class Play extends Phaser.Scene {
     handleInput() {
         if (this.cursors.left.isDown) {
             this.avatar.setVelocityX(-100);
+            this.walkingSound.play();
         }
         else if (this.cursors.right.isDown) {
             this.avatar.setVelocityX(100);
+            this.walkingSound.play();
         }
         else {
             this.avatar.setVelocityX(0);
@@ -70,9 +80,11 @@ class Play extends Phaser.Scene {
 
         if (this.cursors.up.isDown) {
             this.avatar.setVelocityY(-100);
+            this.walkingSound.play();
         }
         else if (this.cursors.down.isDown) {
             this.avatar.setVelocityY(100);
+            this.walkingSound.play();
         }
         else {
             this.avatar.setVelocityY(0);
@@ -80,6 +92,7 @@ class Play extends Phaser.Scene {
 
         if (this.avatar.body.velocity.x !== 0 || this.avatar.body.velocity.y !== 0) {
             this.avatar.play(`moving`, true);
+            this.walkingSound.play();
         }
         else {
             this.avatar.play(`idle`, true);

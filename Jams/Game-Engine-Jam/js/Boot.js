@@ -21,6 +21,8 @@ class Boot extends Phaser.Scene {
       this.load.on("complete", () => {
         this.scene.start("title");
       });
+
+      this.load.audio("background_music", "assets/sounds/maze_music.mp3");
     }
   
     create() {
@@ -33,6 +35,10 @@ class Boot extends Phaser.Scene {
       let loadingString = `Loading...`;
       this.loadingText = this.add.text(100, 100, loadingString, loadingTextStyle);
   
+      let background = this.sound.add("background_music");
+      background.loop = true;
+      background.play();
+
       // Switch to the scene with the key of "title"
       // this.scene.start(`title`);
     }
