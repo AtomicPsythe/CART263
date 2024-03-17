@@ -63,28 +63,30 @@ class Play extends Phaser.Scene {
             this.vision.x = this.avatar.x
             this.vision.y = this.avatar.y
         }
+        console.log(this.avatar.x);
+        console.log(this.avatar.y);
     }
 
     handleInput() {
         if (this.cursors.left.isDown) {
-            this.avatar.setVelocityX(-100);
             this.walkingSound.play();
+            this.avatar.setVelocityX(-100);
         }
         else if (this.cursors.right.isDown) {
-            this.avatar.setVelocityX(100);
             this.walkingSound.play();
+            this.avatar.setVelocityX(100);
         }
         else {
             this.avatar.setVelocityX(0);
         }
 
         if (this.cursors.up.isDown) {
-            this.avatar.setVelocityY(-100);
             this.walkingSound.play();
+            this.avatar.setVelocityY(-100);
         }
         else if (this.cursors.down.isDown) {
-            this.avatar.setVelocityY(100);
             this.walkingSound.play();
+            this.avatar.setVelocityY(100);
         }
         else {
             this.avatar.setVelocityY(0);
@@ -92,10 +94,16 @@ class Play extends Phaser.Scene {
 
         if (this.avatar.body.velocity.x !== 0 || this.avatar.body.velocity.y !== 0) {
             this.avatar.play(`moving`, true);
-            this.walkingSound.play();
         }
         else {
             this.avatar.play(`idle`, true);
+        }
+
+        if (this.avatar.x >= 784 && this.avatar.y >= 558) {
+            this.cameras.main.fadeOut(1000, 0, 0, 0);
+            this.cameras.main.once(Phaser.Cameras.Scene2D.FADE_OUT_COMPLETE, (cam, effect) => {
+                this.scene.start("end");
+            })
         }
     }
 
