@@ -10,9 +10,10 @@ class End extends Phaser.Scene {
     }
     
     create() {
+        this.cameras.main.fadeIn(1000, 0, 0, 0);
         let background = this.add.sprite(400, 300, "endImage");
 
-        let endingText = this.add.text(510, 560, "Refresh to play again!", {
+        let endingText = this.add.text(500, 560, "Refresh to play again!", {
             fontFamily: "Arial",
             fontSize: 30, 
             color: "#FFFFFF"

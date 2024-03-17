@@ -38,9 +38,6 @@ class Boot extends Phaser.Scene {
       let background = this.sound.add("background_music");
       background.loop = true;
       background.play();
-
-      // Switch to the scene with the key of "title"
-      // this.scene.start(`title`);
     }
   
     update() {

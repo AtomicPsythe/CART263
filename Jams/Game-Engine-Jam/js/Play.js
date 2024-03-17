@@ -35,7 +35,7 @@ class Play extends Phaser.Scene {
         }, true)
 
         // fill it with black
-        rt.fill(0x000000, 1)
+        // rt.fill(0x000000, 1)
 
         // set a dark blue tint
         rt.setTint(0x0a2948)
@@ -100,11 +100,19 @@ class Play extends Phaser.Scene {
         }
 
         if (this.avatar.x >= 784 && this.avatar.y >= 558) {
+            this.scene.start("end");
             this.cameras.main.fadeOut(1000, 0, 0, 0);
-            this.cameras.main.once(Phaser.Cameras.Scene2D.FADE_OUT_COMPLETE, (cam, effect) => {
-                this.scene.start("end");
-            })
         }
+
+        if (this.avatar.x > 131 && this.avatar.y >= 334) {
+            this.avatar.x = 50;
+            this.avatar.y = 590;
+        }
+
+        // if (this.avatar.x >= 47 && this.avatar.y >= 233) {
+        //     this.avatar.x = 50;
+        //     this.avatar.y = 590;
+        // }
     }
 
     createAnimations() {
