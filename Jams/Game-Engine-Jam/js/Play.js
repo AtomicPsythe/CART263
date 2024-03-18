@@ -69,11 +69,9 @@ class Play extends Phaser.Scene {
 
     handleInput() {
         if (this.cursors.left.isDown) {
-            this.walkingSound.play();
             this.avatar.setVelocityX(-100);
         }
         else if (this.cursors.right.isDown) {
-            this.walkingSound.play();
             this.avatar.setVelocityX(100);
         }
         else {
@@ -81,11 +79,9 @@ class Play extends Phaser.Scene {
         }
 
         if (this.cursors.up.isDown) {
-            this.walkingSound.play();
             this.avatar.setVelocityY(-100);
         }
         else if (this.cursors.down.isDown) {
-            this.walkingSound.play();
             this.avatar.setVelocityY(100);
         }
         else {
@@ -93,9 +89,11 @@ class Play extends Phaser.Scene {
         }
 
         if (this.avatar.body.velocity.x !== 0 || this.avatar.body.velocity.y !== 0) {
+            this.walkingSound.play();
             this.avatar.play(`moving`, true);
         }
         else {
+            this.walkingSound.play();
             this.avatar.play(`idle`, true);
         }
 
