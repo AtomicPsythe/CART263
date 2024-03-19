@@ -41,7 +41,7 @@ class Play extends Phaser.Scene {
 
         // creates the "fog of war" effect
         // fill it with black
-        // rt.fill(0x000000, 1)
+        rt.fill(0x000000, 1)
         // set a dark blue tint
         rt.setTint(0x0a2948)
 
@@ -115,15 +115,51 @@ class Play extends Phaser.Scene {
             this.cameras.main.fadeOut(1000, 0, 0, 0);
         }
 
-        if (this.avatar.x > 131 && this.avatar.y >= 334) {
+        // created dead ends so that whenever you encounter a dead end you are sent back to the beginning spot
+        if (this.avatar.x >= 130 && this.avatar.x <= 140 && this.avatar.y >= 330 && this.avatar.y <= 340) {
             this.avatar.x = 50;
             this.avatar.y = 590;
         }
 
-        // if (this.avatar.x >= 47 && this.avatar.y >= 233) {
-        //     this.avatar.x = 50;
-        //     this.avatar.y = 590;
-        // }
+        if (this.avatar.x >= 40 && this.avatar.x <= 50 && this.avatar.y >= 233 && this.avatar.y <= 240) {
+            this.avatar.x = 50;
+            this.avatar.y = 590;
+        }
+
+        if (this.avatar.x >= 170 && this.avatar.x <= 180 && this.avatar.y >= 190 && this.avatar.y <= 200) {
+            this.avatar.x = 50;
+            this.avatar.y = 590;
+        }
+
+        if (this.avatar.x >= 540 && this.avatar.x <= 550 && this.avatar.y >= 110 && this.avatar.y <= 120) {
+            this.avatar.x = 50;
+            this.avatar.y = 590;
+        }
+
+        if (this.avatar.x >= 730 && this.avatar.x <= 740 && this.avatar.y >= 40 && this.avatar.y <= 50) {
+            this.avatar.x = 50;
+            this.avatar.y = 590;
+        }
+
+        if (this.avatar.x >= 750 && this.avatar.x <= 760 && this.avatar.y >= 130 && this.avatar.y <= 140) {
+            this.avatar.x = 50;
+            this.avatar.y = 590;
+        }
+
+        if (this.avatar.x >= 540 && this.avatar.x <= 550 && this.avatar.y >= 360 && this.avatar.y <= 370) {
+            this.avatar.x = 50;
+            this.avatar.y = 590;
+        }
+
+        if (this.avatar.x >= 670 && this.avatar.x <= 680 && this.avatar.y >= 430 && this.avatar.y <= 440) {
+            this.avatar.x = 50;
+            this.avatar.y = 590;
+        }
+
+        if (this.avatar.x >= 480 && this.avatar.x <= 490 && this.avatar.y >= 490 && this.avatar.y <= 500) {
+            this.avatar.x = 50;
+            this.avatar.y = 590;
+        }
     }
 
     // creates the walking and idle animations for the avatar
