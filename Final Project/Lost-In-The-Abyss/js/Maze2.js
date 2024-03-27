@@ -21,8 +21,15 @@ class Maze2 extends Phaser.Scene {
 
         // loads in the avatar, adds collision to the maze's walls and adds physics to the avatar so it doesn't move through the maze
         maze.setCollisionByProperty({ collides: true });
+        this.add.image(80, 300, "block");
         this.avatar = this.physics.add.sprite(30, 310, "avatar");
+        // this.avatarShadow = this.physics.add.sprite(60, 300, "avatar_shadow");
+        this.physics.add.collider(this.avatar, this.block, this.function, null, this);
+        if (this.avatar.x >= 80 && this.avatar.x <= 90 && this.avatar.y >= 300 && this.avatar.y <= 310) {
+            this.avatarShadow = this.physics.add.sprite(60, 300, "avatar_shadow");
+        }
         this.physics.add.collider(this.avatar, maze);
+        this.physics.add.collider(this.avatarShadow, maze);
         console.log("Play scene created!");
 
         // calls the createAnimations function so the animations get created when the avatar is in motion
@@ -40,22 +47,22 @@ class Maze2 extends Phaser.Scene {
             height: 1200
         }, true)
 
-        // creates the "fog of war" effect
-        // fill it with black
-        rt.fill(0x000000, 1)
-        // set a dark blue tint
-        rt.setTint(0x0a2948)
+        // // creates the "fog of war" effect
+        // // fill it with black
+        // rt.fill(0x000000, 1)
+        // // set a dark blue tint
+        // rt.setTint(0x0a2948)
 
-        // allows for a light or visible area to only be displayed where the avatar is, everywhere else is dark
-        this.vision = this.make.image({
-            x: this.avatar.x,
-            y: this.avatar.y,
-            key: 'vision',
-            add: false
-        })
-        this.vision.scale = 2.5
-        rt.mask = new Phaser.Display.Masks.BitmapMask(this, this.vision)
-        rt.mask.invertAlpha = true
+        // // allows for a light or visible area to only be displayed where the avatar is, everywhere else is dark
+        // this.vision = this.make.image({
+        //     x: this.avatar.x,
+        //     y: this.avatar.y,
+        //     key: 'vision',
+        //     add: false
+        // })
+        // this.vision.scale = 4
+        // rt.mask = new Phaser.Display.Masks.BitmapMask(this, this.vision)
+        // rt.mask.invertAlpha = true
 
         // creates the walking noise and plays it on a loop
         this.walkingSound = this.sound.add("walking_music", {
@@ -74,8 +81,16 @@ class Maze2 extends Phaser.Scene {
             this.vision.x = this.avatar.x
             this.vision.y = this.avatar.y
         }
-        // console.log(this.avatar.x);
-        // console.log(this.avatar.y);
+        this.physics.moveToObject(this.avatarShadow, this.avatar, 100);
+        // if (this.avatar.x >= 80 && this.avatar.x <= 90 && this.avatar.y >= 300 && this.avatar.y <= 310) {
+        //     this.avatarShadow = this.physics.add.sprite(60, 300, "avatar_shadow");
+        // }
+        // this.avatarShadow.x = this.avatar.x - 30;
+        // if (this.avatar.x >= 80 && this.avatar.x <= 90 && this.avatar.y >= 300 && this.avatar.y <= 310) {
+        //     this.physics.moveToObject(this.avatarShadow, this.avatar, 100);
+        // }
+        console.log(this.avatar.x);
+        console.log(this.avatar.y);
     }
 
     handleInput() {
@@ -116,52 +131,6 @@ class Maze2 extends Phaser.Scene {
             this.walkingSound.pause();
             this.cameras.main.fadeOut(1000, 0, 0, 0);
         }
-
-        // created dead ends so that whenever you encounter a dead end you are sent back to the beginning spot
-        if (this.avatar.x >= 130 && this.avatar.x <= 140 && this.avatar.y >= 330 && this.avatar.y <= 340) {
-            this.avatar.x = 50;
-            this.avatar.y = 590;
-        }
-
-        if (this.avatar.x >= 40 && this.avatar.x <= 50 && this.avatar.y >= 233 && this.avatar.y <= 240) {
-            this.avatar.x = 50;
-            this.avatar.y = 590;
-        }
-
-        if (this.avatar.x >= 170 && this.avatar.x <= 180 && this.avatar.y >= 190 && this.avatar.y <= 200) {
-            this.avatar.x = 50;
-            this.avatar.y = 590;
-        }
-
-        if (this.avatar.x >= 540 && this.avatar.x <= 550 && this.avatar.y >= 110 && this.avatar.y <= 120) {
-            this.avatar.x = 50;
-            this.avatar.y = 590;
-        }
-
-        if (this.avatar.x >= 730 && this.avatar.x <= 740 && this.avatar.y >= 40 && this.avatar.y <= 50) {
-            this.avatar.x = 50;
-            this.avatar.y = 590;
-        }
-
-        if (this.avatar.x >= 750 && this.avatar.x <= 760 && this.avatar.y >= 130 && this.avatar.y <= 140) {
-            this.avatar.x = 50;
-            this.avatar.y = 590;
-        }
-
-        if (this.avatar.x >= 540 && this.avatar.x <= 550 && this.avatar.y >= 360 && this.avatar.y <= 370) {
-            this.avatar.x = 50;
-            this.avatar.y = 590;
-        }
-
-        if (this.avatar.x >= 670 && this.avatar.x <= 680 && this.avatar.y >= 430 && this.avatar.y <= 440) {
-            this.avatar.x = 50;
-            this.avatar.y = 590;
-        }
-
-        if (this.avatar.x >= 480 && this.avatar.x <= 490 && this.avatar.y >= 490 && this.avatar.y <= 500) {
-            this.avatar.x = 50;
-            this.avatar.y = 590;
-        }
     }
 
     // creates the walking and idle animations for the avatar
@@ -169,6 +138,15 @@ class Maze2 extends Phaser.Scene {
         this.anims.create({
             key: "moving",
             frames: this.anims.generateFrameNumbers("avatar", {
+                start: 0,
+                end: 31
+            }),
+            frameRate: 12,
+            repeat: -1
+        })
+        this.anims.create({
+            key: "moving",
+            frames: this.anims.generateFrameNumbers("avatar_shadow", {
                 start: 0,
                 end: 31
             }),
@@ -183,7 +161,7 @@ class Maze2 extends Phaser.Scene {
                 end: 0
             }),
             repeat: 0
-        };
+        }
         this.anims.create(idleAnimationConfig);
     }
 }

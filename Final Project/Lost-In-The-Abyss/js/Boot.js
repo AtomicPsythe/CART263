@@ -15,9 +15,18 @@ class Boot extends Phaser.Scene {
         spacing: 64
       });
 
+      this.load.spritesheet("avatar_shadow", "assets/images/avatar_shadow.png", {
+        frameWidth: 16,
+        frameHeight: 16,
+        endFrame: 31,
+        margin: 32,
+        spacing: 64
+      });
+
       // loads in the tileset used to create the tilemap and the tilemap itself from Tiled
       this.load.image("tileset_image", "assets/tilemap/tileset.png");
       this.load.tilemapTiledJSON("tilemap", "assets/tilemap/tilemap.json");
+      this.load.image("block", "assets/images/invisible_block.png");
 
       // recognizes that when the loading portion is completed, it transitions to the title scene
       this.load.on("complete", () => {
