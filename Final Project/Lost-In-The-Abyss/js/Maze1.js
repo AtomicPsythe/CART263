@@ -1,7 +1,7 @@
-class Play extends Phaser.Scene {
+class Maze1 extends Phaser.Scene {
     constructor() {
         super({
-            key: "play"
+            key: "maze1"
         });
     }
 
@@ -22,7 +22,6 @@ class Play extends Phaser.Scene {
         maze.setCollisionByProperty({ collides: true });
         this.avatar = this.physics.add.sprite(50, 590, "avatar");
         this.physics.add.collider(this.avatar, maze);
-        console.log("Play scene created!");
 
         // calls the createAnimations function so the animations get created when the avatar is in motion
         this.createAnimations();
@@ -73,8 +72,8 @@ class Play extends Phaser.Scene {
             this.vision.x = this.avatar.x
             this.vision.y = this.avatar.y
         }
-        console.log(this.avatar.x);
-        console.log(this.avatar.y);
+        // console.log(this.avatar.x);
+        // console.log(this.avatar.y);
     }
 
     handleInput() {
@@ -111,9 +110,9 @@ class Play extends Phaser.Scene {
         }
 
         if (this.avatar.x >= 784 && this.avatar.y >= 558) {
-            this.scene.start("maze1Text");
             this.walkingSound.pause();
             this.cameras.main.fadeOut(1000, 0, 0, 0);
+            this.scene.start("maze1Text");
         }
 
         // created dead ends so that whenever you encounter a dead end you are sent back to the beginning spot

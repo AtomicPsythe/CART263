@@ -1,17 +1,16 @@
-class Maze1Text extends Phaser.Scene {
+class IntroText extends Phaser.Scene {
     constructor() {
       super({
-        key: `maze1Text`
+        key: `introText`
       });
     }
 
     preload() {
-        this.load.image("mazeTextImage", "assets/images/maze_text_background.png");
+        this.load.image("introTextImage", "assets/images/intro_text_background.png");
     }
 
     create() {
-        this.cameras.main.fadeIn(1000, 0, 0, 0);
-        let background = this.add.sprite(400, 300, "mazeTextImage");
+        let background = this.add.sprite(400, 300, "introTextImage");
 	    this.label = this.add.text(100, 200, '')
 		.setWordWrapWidth(600)
         
@@ -28,7 +27,7 @@ class Maze1Text extends Phaser.Scene {
             this.cameras.main.fadeOut(1000, 0, 0, 0)
         })
         this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
-            this.scene.start('maze2')
+            this.scene.start('maze1')
         })
     }
 

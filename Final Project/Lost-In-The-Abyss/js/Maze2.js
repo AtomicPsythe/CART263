@@ -14,8 +14,7 @@ class Maze2 extends Phaser.Scene {
         this.cameras.main.fadeIn(1000, 0, 0, 0);
         console.log("playing maze 2");
         // adds in the image for the tilemap (and its layers) and the tileset
-        // this.add.image(0, 0, "tilemap_2");
-        let map = this.make.tilemap({ key: "tilemap_2" });
+        let map = this.make.tilemap({ key: "tilemap" });
         let tileset = map.addTilesetImage("tileset", "tileset_image");
         map.createLayer("background", tileset);
         let maze = map.createLayer("maze 2", tileset);
@@ -75,8 +74,8 @@ class Maze2 extends Phaser.Scene {
             this.vision.x = this.avatar.x
             this.vision.y = this.avatar.y
         }
-        console.log(this.avatar.x);
-        console.log(this.avatar.y);
+        // console.log(this.avatar.x);
+        // console.log(this.avatar.y);
     }
 
     handleInput() {
