@@ -147,7 +147,7 @@ class Maze2 extends Phaser.Scene {
             this.avatar.play(`idle`, true);
         }
 
-        if (this.avatar.x >= 784 && this.avatar.y >= 558) {
+        if (this.avatar.x >= 784 && this.avatar.y >= 300) {
             this.scene.start("end");
             this.walkingSound.pause();
             this.cameras.main.fadeOut(1000, 0, 0, 0);
