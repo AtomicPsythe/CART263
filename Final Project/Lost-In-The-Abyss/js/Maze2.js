@@ -23,17 +23,30 @@ class Maze2 extends Phaser.Scene {
         maze.setCollisionByProperty({ collides: true });
         this.add.image(80, 300, "block");
         this.avatar = this.physics.add.sprite(30, 310, "avatar");
+        this.avatar.history = [];
+
         // this.avatarShadow = this.physics.add.sprite(60, 300, "avatar_shadow");
-        this.physics.add.collider(this.avatar, this.block, this.function, null, this);
-        if (this.avatar.x >= 80 && this.avatar.x <= 90 && this.avatar.y >= 300 && this.avatar.y <= 310) {
-            this.avatarShadow = this.physics.add.sprite(60, 300, "avatar_shadow");
-        }
-        this.physics.add.collider(this.avatar, maze);
-        this.physics.add.collider(this.avatarShadow, maze);
+
+
+
         console.log("Play scene created!");
 
+        this.physics.add.collider(this.avatar, maze);
         // calls the createAnimations function so the animations get created when the avatar is in motion
         this.createAnimations();
+
+        this.physics.add.collider(this.avatar, this.block, this.function, null, this);
+        this.avatarShadow = this.physics.add.sprite(30, 310, "avatar_shadow");
+        this.avatarShadow.play("shadow_moving");
+        this.avatarShadow.setVisible(false);
+        this.physics.add.overlap(this.avatarShadow, this.avatar, null, this.caught, this);
+
+        this.time.delayedCall(2000, () => {
+            console.log("HERE COMES THE SHADOW!!!");
+            this.avatarShadow.setVisible(true);
+        });
+
+
         this.avatar.play("idle");
         // makes it so that the avatar cannot move out of bounds
         this.avatar.setCollideWorldBounds(true);
@@ -73,6 +86,13 @@ class Maze2 extends Phaser.Scene {
         this.walkingSound.pause();
     }
 
+    caught(shadow, avatar) {
+        if (this.avatarShadow.visible) {
+            console.log("Overlap");
+            this.scene.start("maze2");
+        }
+    }
+
     update() {
         // calls the handleInput function
         this.handleInput();
@@ -81,16 +101,17 @@ class Maze2 extends Phaser.Scene {
             this.vision.x = this.avatar.x
             this.vision.y = this.avatar.y
         }
-        this.physics.moveToObject(this.avatarShadow, this.avatar, 100);
-        // if (this.avatar.x >= 80 && this.avatar.x <= 90 && this.avatar.y >= 300 && this.avatar.y <= 310) {
-        //     this.avatarShadow = this.physics.add.sprite(60, 300, "avatar_shadow");
-        // }
-        // this.avatarShadow.x = this.avatar.x - 30;
-        // if (this.avatar.x >= 80 && this.avatar.x <= 90 && this.avatar.y >= 300 && this.avatar.y <= 310) {
-        //     this.physics.moveToObject(this.avatarShadow, this.avatar, 100);
-        // }
         console.log(this.avatar.x);
         console.log(this.avatar.y);
+
+        this.avatar.history.push({
+            x: this.avatar.x,
+            y: this.avatar.y
+        });
+        if (this.avatarShadow.visible) {
+            const pos = this.avatar.history.shift();
+            this.avatarShadow.setPosition(pos.x, pos.y);
+        }
     }
 
     handleInput() {
@@ -145,7 +166,7 @@ class Maze2 extends Phaser.Scene {
             repeat: -1
         })
         this.anims.create({
-            key: "moving",
+            key: "shadow_moving",
             frames: this.anims.generateFrameNumbers("avatar_shadow", {
                 start: 0,
                 end: 31
