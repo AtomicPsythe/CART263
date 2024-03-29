@@ -6,7 +6,7 @@ class Boot extends Phaser.Scene {
     }
 
     preload() {
-      // loads in the spritesheet for the avatar, ensuring there is no space surrounding the avatar once its loaded
+      // loads in the spritesheet for the avatar and the shadow avatar, ensuring there is no space surrounding both once its loaded
       this.load.spritesheet("avatar", "assets/images/avatar.png", {
         frameWidth: 16,
         frameHeight: 16,

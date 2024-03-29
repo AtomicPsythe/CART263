@@ -11,6 +11,7 @@ class Maze2 extends Phaser.Scene {
     }
 
     create() {
+        // fades in the new maze after maze1Text
         this.cameras.main.fadeIn(1000, 0, 0, 0);
         console.log("playing maze 2");
         // adds in the image for the tilemap (and its layers) and the tileset
@@ -19,23 +20,21 @@ class Maze2 extends Phaser.Scene {
         map.createLayer("background", tileset);
         let maze = map.createLayer("maze 2", tileset);
 
-        // loads in the avatar, adds collision to the maze's walls and adds physics to the avatar so it doesn't move through the maze
+        // creates the collisions for the maze's blocks and loads in the avatar
         maze.setCollisionByProperty({ collides: true });
-        this.add.image(80, 300, "block");
         this.avatar = this.physics.add.sprite(30, 310, "avatar");
+
+        // collects the avatar's previous positions and movements in an array
         this.avatar.history = [];
-
-        // this.avatarShadow = this.physics.add.sprite(60, 300, "avatar_shadow");
-
-
-
         console.log("Play scene created!");
 
+        // adds collisions between the avatar and the maze
         this.physics.add.collider(this.avatar, maze);
+
         // calls the createAnimations function so the animations get created when the avatar is in motion
         this.createAnimations();
 
-        this.physics.add.collider(this.avatar, this.block, this.function, null, this);
+        // creates the shadow avatar and has it spawn 2 seconds after the avatar loads in and begins to move
         this.avatarShadow = this.physics.add.sprite(30, 310, "avatar_shadow");
         this.avatarShadow.play("shadow_moving");
         this.avatarShadow.setVisible(false);
@@ -45,7 +44,6 @@ class Maze2 extends Phaser.Scene {
             console.log("HERE COMES THE SHADOW!!!");
             this.avatarShadow.setVisible(true);
         });
-
 
         this.avatar.play("idle");
         // makes it so that the avatar cannot move out of bounds
@@ -60,22 +58,21 @@ class Maze2 extends Phaser.Scene {
             height: 1200
         }, true)
 
-        // // creates the "fog of war" effect
-        // // fill it with black
-        // rt.fill(0x000000, 1)
-        // // set a dark blue tint
-        // rt.setTint(0x0a2948)
+        // creates the "fog of war" effect fill it with black
+        rt.fill(0x000000, 1)
+        // set a dark blue tint
+        rt.setTint(0x0a2948)
 
-        // // allows for a light or visible area to only be displayed where the avatar is, everywhere else is dark
-        // this.vision = this.make.image({
-        //     x: this.avatar.x,
-        //     y: this.avatar.y,
-        //     key: 'vision',
-        //     add: false
-        // })
-        // this.vision.scale = 4
-        // rt.mask = new Phaser.Display.Masks.BitmapMask(this, this.vision)
-        // rt.mask.invertAlpha = true
+        // allows for a light or visible area to only be displayed where the avatar is, everywhere else is dark
+        this.vision = this.make.image({
+            x: this.avatar.x,
+            y: this.avatar.y,
+            key: 'vision',
+            add: false
+        })
+        this.vision.scale = 5
+        rt.mask = new Phaser.Display.Masks.BitmapMask(this, this.vision)
+        rt.mask.invertAlpha = true
 
         // creates the walking noise and plays it on a loop
         this.walkingSound = this.sound.add("walking_music", {
@@ -86,9 +83,11 @@ class Maze2 extends Phaser.Scene {
         this.walkingSound.pause();
     }
 
+    // checks if the avatar and shadow avatar overlap, if they do then the maze reloads and the player must restart the maze
     caught(shadow, avatar) {
         if (this.avatarShadow.visible) {
             console.log("Overlap");
+            this.walkingSound.stop();
             this.scene.start("maze2");
         }
     }
@@ -101,9 +100,10 @@ class Maze2 extends Phaser.Scene {
             this.vision.x = this.avatar.x
             this.vision.y = this.avatar.y
         }
-        console.log(this.avatar.x);
-        console.log(this.avatar.y);
+        // console.log(this.avatar.x);
+        // console.log(this.avatar.y);
 
+        // allows for the shadow avatar to follow the same previous movements as the avatar, making it chase it until the avatar gets caught or exits the maze (shadow mario from super mario galaxy style)
         this.avatar.history.push({
             x: this.avatar.x,
             y: this.avatar.y
@@ -115,8 +115,7 @@ class Maze2 extends Phaser.Scene {
     }
 
     handleInput() {
-        // checks if each of the cardinal key buttons are pressed, if they are the avatar will move in said direction
-        // otherwise it will remain idle
+        // checks if each of the cardinal key buttons are pressed, if they are the avatar will move in said direction otherwise it will remain idle
         if (this.cursors.left.isDown) {
             this.avatar.setVelocityX(-100);
         }
@@ -147,6 +146,7 @@ class Maze2 extends Phaser.Scene {
             this.avatar.play(`idle`, true);
         }
 
+        // checks if the avatar has reached the end of the maze if they have they will load into the next portion of the game
         if (this.avatar.x >= 784 && this.avatar.y >= 300) {
             this.scene.start("end");
             this.walkingSound.pause();
@@ -154,7 +154,7 @@ class Maze2 extends Phaser.Scene {
         }
     }
 
-    // creates the walking and idle animations for the avatar
+    // creates the walking and idle animations for the avatar and the shadow avatar
     createAnimations() {
         this.anims.create({
             key: "moving",

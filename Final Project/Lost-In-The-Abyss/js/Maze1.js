@@ -77,8 +77,7 @@ class Maze1 extends Phaser.Scene {
     }
 
     handleInput() {
-        // checks if each of the cardinal key buttons are pressed, if they are the avatar will move in said direction
-        // otherwise it will remain idle
+        // checks if each of the cardinal key buttons are pressed, if they are the avatar will move in said direction otherwise it will remain idle
         if (this.cursors.left.isDown) {
             this.avatar.setVelocityX(-100);
         }
