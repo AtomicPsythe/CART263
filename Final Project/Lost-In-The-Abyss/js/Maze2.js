@@ -8,6 +8,7 @@ class Maze2 extends Phaser.Scene {
     // loads in the walking audio for the avatar
     preload() {
         this.load.audio("walking_music", "assets/sounds/walking.mp3");
+        // this.scene.load.video("jumpscare", "assets/videos/jumpscare_temp.mp4");
     }
 
     create() {
@@ -88,6 +89,9 @@ class Maze2 extends Phaser.Scene {
         if (this.avatarShadow.visible) {
             console.log("Overlap");
             this.walkingSound.stop();
+            // this.cameras.main.fadeOut(1000, 0, 0, 0);
+            // this.video = this.add.video(0, 0, 'jumpscare');
+            // this.video.play();
             this.scene.start("maze2");
         }
     }
@@ -148,7 +152,7 @@ class Maze2 extends Phaser.Scene {
 
         // checks if the avatar has reached the end of the maze if they have they will load into the next portion of the game
         if (this.avatar.x >= 784 && this.avatar.y >= 300) {
-            this.scene.start("end");
+            this.scene.start("maze2Text");
             this.walkingSound.pause();
             this.cameras.main.fadeOut(1000, 0, 0, 0);
         }
