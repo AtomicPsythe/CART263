@@ -29,6 +29,6 @@ class Title extends Phaser.Scene {
     
         // once the fade is completed, it will transition to the play scene
         this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
-            this.scene.start('maze2')
+            this.scene.start('introText')
     })}
 }
