@@ -24,7 +24,7 @@ let config = {
     // Finally, the scene property has an array of the different scenes
     // in our game, with the one listed first being loaded automatically
     // Right now we don't have a scene to load, so let's leave it empty
-    scene: [Boot, Title, IntroText, Maze1, Maze1Text, Maze2, Maze2Text, End]
+    scene: [Boot, Title, IntroText, Maze1, Maze1Text, Maze2, Jumpscare, Maze2Text, End]
   };
   
   // Here we actually create the game using this configuration!

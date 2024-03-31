@@ -8,7 +8,7 @@ class Maze2 extends Phaser.Scene {
     // loads in the walking audio for the avatar
     preload() {
         this.load.audio("walking_music", "assets/sounds/walking.mp3");
-        // this.scene.load.video("jumpscare", "assets/videos/jumpscare_temp.mp4");
+        this.load.video("jumpscare", "assets/videos/jumpscare_temp.mp4");
     }
 
     create() {
@@ -89,10 +89,9 @@ class Maze2 extends Phaser.Scene {
         if (this.avatarShadow.visible) {
             console.log("Overlap");
             this.walkingSound.stop();
-            // this.cameras.main.fadeOut(1000, 0, 0, 0);
-            // this.video = this.add.video(0, 0, 'jumpscare');
-            // this.video.play();
-            this.scene.start("maze2");
+            this.cameras.main.fadeOut(1000, 0, 0, 0);
+            // calls the jumpscare class so that it can play the jumpscare and restart the maze
+            this.scene.start("jumpscare");
         }
     }
 
