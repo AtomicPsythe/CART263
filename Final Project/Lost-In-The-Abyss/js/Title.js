@@ -7,28 +7,44 @@ class Title extends Phaser.Scene {
 
     // loads the title screen image
     preload() {
-        this.load.image("titleImage", "assets/images/title_background.png");
+        this.load.image("titleImage", "assets/images/new_title_background.png");
+        this.load.image("startButton", "assets/images/start_title.png");
+        this.load.image("controlsButton", "assets/images/controls_title.png");
+        this.load.image("controlsX", "assets/images/options_x.png");
+        this.load.image("controlsInstructions", "assets/images/options_title_image.png");
+        this.load.image("creditsButton", "assets/images/credits_title.png");
     }
     
     create() {
         // creates the image so it can be loaded
         let background = this.add.sprite(400, 300, "titleImage");
+        
+        // create the start button, where upon clicking it starts the game
+        let startButton = this.add.image(this.game.renderer.width / 1.2, this.game.renderer.height / 2.1 + 50, "startButton");
+        startButton.setInteractive()
+        startButton.on("pointerdown", () => {
+            this.cameras.main.fadeOut(1000, 0, 0, 0)
+            this.scene.start("maze1Text");
+        })
 
-        // the text present on the title screen
-        let titleText = this.add.text(510, 560, "Press space to start!", {
-            fontFamily: "Arial",
-            fontSize: 30, 
-            color: "#FFFFFF"
+        // creates the controls button, upon being clicked opens the controls image where it displays the controls and if the X is clicked on the image closes the instructions image
+        let controlsButton = this.add.image(this.game.renderer.width / 1.19, this.game.renderer.height / 1.6 + 50, "controlsButton")
+        controlsButton.setInteractive();
+        controlsButton.on("pointerdown", () => {
+            let instructionPage = this.add.image(this.game.renderer.width / 2, this.game.renderer.height / 2, "controlsInstructions");
+            let controlsX = this.add.image(140, 100, "controlsX");
+            controlsX.setInteractive();
+            controlsX.on("pointerdown", () => {
+                instructionPage.visible = false;
+                controlsX.visible = false;
+            });
         });
 
-        // when the space bar is pressed, it will start a fade that will lead into the play scene
-        this.input.keyboard.once('keydown-SPACE', () => {
-            // fade to black
-            this.cameras.main.fadeOut(1000, 0, 0, 0)
-        })
+        // do the same for credits
+        let creditsButton = this.add.image(this.game.renderer.width / 1.2, this.game.renderer.height / 1.3 + 50, "creditsButton");
     
         // once the fade is completed, it will transition to the play scene
         this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
-            this.scene.start('introText')
+            this.scene.start('maze3')
     })}
 }

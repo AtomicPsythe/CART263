@@ -1,7 +1,7 @@
-class Play extends Phaser.Scene {
+class Maze3 extends Phaser.Scene {
     constructor() {
         super({
-            key: "play"
+            key: "maze3"
         });
     }
 
@@ -16,13 +16,12 @@ class Play extends Phaser.Scene {
         let map = this.make.tilemap({ key: "tilemap" });
         let tileset = map.addTilesetImage("tileset", "tileset_image");
         map.createLayer("background", tileset);
-        let maze = map.createLayer("maze 2", tileset);
+        let maze = map.createLayer("maze 3", tileset);
 
         // loads in the avatar, adds collision to the maze's walls and adds physics to the avatar so it doesn't move through the maze
         maze.setCollisionByProperty({ collides: true });
-        this.avatar = this.physics.add.sprite(50, 590, "avatar");
+        this.avatar = this.physics.add.sprite(753, 14, "avatar");
         this.physics.add.collider(this.avatar, maze);
-        console.log("Play scene created!");
 
         // calls the createAnimations function so the animations get created when the avatar is in motion
         this.createAnimations();
@@ -78,8 +77,7 @@ class Play extends Phaser.Scene {
     }
 
     handleInput() {
-        // checks if each of the cardinal key buttons are pressed, if they are the avatar will move in said direction
-        // otherwise it will remain idle
+        // checks if each of the cardinal key buttons are pressed, if they are the avatar will move in said direction otherwise it will remain idle
         if (this.cursors.left.isDown) {
             this.avatar.setVelocityX(-100);
         }
@@ -111,55 +109,9 @@ class Play extends Phaser.Scene {
         }
 
         if (this.avatar.x >= 784 && this.avatar.y >= 558) {
-            this.scene.start("end");
             this.walkingSound.pause();
             this.cameras.main.fadeOut(1000, 0, 0, 0);
-        }
-
-        // created dead ends so that whenever you encounter a dead end you are sent back to the beginning spot
-        if (this.avatar.x >= 130 && this.avatar.x <= 140 && this.avatar.y >= 330 && this.avatar.y <= 340) {
-            this.avatar.x = 50;
-            this.avatar.y = 590;
-        }
-
-        if (this.avatar.x >= 40 && this.avatar.x <= 50 && this.avatar.y >= 233 && this.avatar.y <= 240) {
-            this.avatar.x = 50;
-            this.avatar.y = 590;
-        }
-
-        if (this.avatar.x >= 170 && this.avatar.x <= 180 && this.avatar.y >= 190 && this.avatar.y <= 200) {
-            this.avatar.x = 50;
-            this.avatar.y = 590;
-        }
-
-        if (this.avatar.x >= 540 && this.avatar.x <= 550 && this.avatar.y >= 110 && this.avatar.y <= 120) {
-            this.avatar.x = 50;
-            this.avatar.y = 590;
-        }
-
-        if (this.avatar.x >= 730 && this.avatar.x <= 740 && this.avatar.y >= 40 && this.avatar.y <= 50) {
-            this.avatar.x = 50;
-            this.avatar.y = 590;
-        }
-
-        if (this.avatar.x >= 750 && this.avatar.x <= 760 && this.avatar.y >= 130 && this.avatar.y <= 140) {
-            this.avatar.x = 50;
-            this.avatar.y = 590;
-        }
-
-        if (this.avatar.x >= 540 && this.avatar.x <= 550 && this.avatar.y >= 360 && this.avatar.y <= 370) {
-            this.avatar.x = 50;
-            this.avatar.y = 590;
-        }
-
-        if (this.avatar.x >= 670 && this.avatar.x <= 680 && this.avatar.y >= 430 && this.avatar.y <= 440) {
-            this.avatar.x = 50;
-            this.avatar.y = 590;
-        }
-
-        if (this.avatar.x >= 480 && this.avatar.x <= 490 && this.avatar.y >= 490 && this.avatar.y <= 500) {
-            this.avatar.x = 50;
-            this.avatar.y = 590;
+            this.scene.start("maze1Text");
         }
     }
 
@@ -186,5 +138,3 @@ class Play extends Phaser.Scene {
         this.anims.create(idleAnimationConfig);
     }
 }
-
-
