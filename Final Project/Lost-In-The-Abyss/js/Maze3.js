@@ -23,6 +23,21 @@ class Maze3 extends Phaser.Scene {
         this.avatar = this.physics.add.sprite(753, 14, "avatar");
         this.physics.add.collider(this.avatar, maze);
 
+        // COLLECTABLES
+        this.collectables = this.physics.add.group({
+            key: 'map',
+            quantity: 4
+        });
+
+        this.collectables.children.each(function (collectable) {
+            let x = Phaser.Math.Between(400, 600);
+            let y = Phaser.Math.Between(700, 900);
+            collectable.setPosition(x, y);
+            collectable.setTint(`0x3333dd`);
+        }, this);
+
+        this.physics.add.overlap(this.avatar, this.collectables, this.destroyCollectables, null, this);
+
         // calls the createAnimations function so the animations get created when the avatar is in motion
         this.createAnimations();
         this.avatar.play("idle");
@@ -31,29 +46,28 @@ class Maze3 extends Phaser.Scene {
         // allows for the cursor keys to be recognized when they are pressed and released
         this.cursors = this.input.keyboard.createCursorKeys();
 
-        // make a RenderTexture that is the size of the screen
-        let width = this.scale.width
-        let rt = this.make.renderTexture({
-            width: 1800,
-            height: 1200
-        }, true)
+        // // make a RenderTexture that is the size of the screen
+        // let width = this.scale.width
+        // let rt = this.make.renderTexture({
+        //     width: 1800,
+        //     height: 1200
+        // }, true)
 
-        // creates the "fog of war" effect
-        // fill it with black
-        rt.fill(0x000000, 1)
-        // set a dark blue tint
-        rt.setTint(0x0a2948)
+        // // creates the "fog of war" effect fill it with black
+        // rt.fill(0x000000, 1)
+        // // set a dark blue tint
+        // rt.setTint(0x0a2948)
 
-        // allows for a light or visible area to only be displayed where the avatar is, everywhere else is dark
-        this.vision = this.make.image({
-            x: this.avatar.x,
-            y: this.avatar.y,
-            key: 'vision',
-            add: false
-        })
-        this.vision.scale = 2.5
-        rt.mask = new Phaser.Display.Masks.BitmapMask(this, this.vision)
-        rt.mask.invertAlpha = true
+        // // allows for a light or visible area to only be displayed where the avatar is, everywhere else is dark
+        // this.vision = this.make.image({
+        //     x: this.avatar.x,
+        //     y: this.avatar.y,
+        //     key: 'vision',
+        //     add: false
+        // })
+        // this.vision.scale = 2.5
+        // rt.mask = new Phaser.Display.Masks.BitmapMask(this, this.vision)
+        // rt.mask.invertAlpha = true
 
         // creates the walking noise and plays it on a loop
         this.walkingSound = this.sound.add("walking_music", {
@@ -64,6 +78,10 @@ class Maze3 extends Phaser.Scene {
         this.walkingSound.pause();
     }
 
+    destroyCollectables(avatar, item){
+        item.destroy();
+    }
+
     update() {
         // calls the handleInput function
         this.handleInput();
@@ -72,8 +90,8 @@ class Maze3 extends Phaser.Scene {
             this.vision.x = this.avatar.x
             this.vision.y = this.avatar.y
         }
-        console.log(this.avatar.x);
-        console.log(this.avatar.y);
+        // console.log(this.avatar.x);
+        // console.log(this.avatar.y);
     }
 
     handleInput() {

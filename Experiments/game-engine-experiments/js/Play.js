@@ -80,14 +80,12 @@ class Play extends Phaser.Scene {
       this.cursors = this.input.keyboard.createCursorKeys();
     }
 
-    update() {
-        // this.handleInput();
-        // collectItem(avatar, item) {
-        //     item.destroy();
-        // }
-        // console.log("Play scene updated!");
-        this.avatar.setVelocity(0);
+    collectItem(avatar, item) {
+        item.destroy();
+    }
 
+    handleInput(){
+        this.avatar.setVelocity(0);
         if (this.cursors.left.isDown)
         {
             this.avatar.setVelocityX(-300);
@@ -112,6 +110,11 @@ class Play extends Phaser.Scene {
         else {
             this.avatar.play("avatar-idle");
         }
+    }
+
+    update() {
+        this.handleInput();
+        console.log("Play scene updated!");
     }
 
     createAnimations() {

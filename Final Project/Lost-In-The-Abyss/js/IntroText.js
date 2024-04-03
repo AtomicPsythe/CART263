@@ -11,6 +11,7 @@ class IntroText extends Phaser.Scene {
     }
 
     create() {
+        this.cameras.main.fadeIn(1000, 0, 0, 0);
         // places the background image
         let background = this.add.sprite(400, 300, "introTextImage");
         // defines the coordinates of where the text will be placed and when the text will wrap onto the next line so it does not go off screen

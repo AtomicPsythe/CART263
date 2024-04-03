@@ -23,8 +23,8 @@ class Title extends Phaser.Scene {
         let startButton = this.add.image(this.game.renderer.width / 1.2, this.game.renderer.height / 2.1 + 50, "startButton");
         startButton.setInteractive()
         startButton.on("pointerdown", () => {
-            this.cameras.main.fadeOut(1000, 0, 0, 0)
-            this.scene.start("maze1Text");
+            this.cameras.main.fadeOut(1000, 0, 0, 0);
+            this.scene.start("maze3");
         })
 
         // creates the controls button, upon being clicked opens the controls image where it displays the controls and if the X is clicked on the image closes the instructions image
@@ -42,9 +42,5 @@ class Title extends Phaser.Scene {
 
         // do the same for credits
         let creditsButton = this.add.image(this.game.renderer.width / 1.2, this.game.renderer.height / 1.3 + 50, "creditsButton");
-    
-        // once the fade is completed, it will transition to the play scene
-        this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
-            this.scene.start('maze3')
-    })}
+    }
 }
