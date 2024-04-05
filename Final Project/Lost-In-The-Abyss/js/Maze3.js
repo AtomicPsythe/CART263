@@ -19,8 +19,7 @@ class Maze3 extends Phaser.Scene {
         let tileset = map.addTilesetImage("tileset", "tileset_image");
         map.createLayer("background", tileset);
         let maze = map.createLayer("maze 3", tileset);
-        this.add.image(300, 400, "block");
-        console.log(this.add.image(753, 14, "block"));
+        
 
         // loads in the avatar, adds collision to the maze's walls and adds physics to the avatar so it doesn't move through the maze
         maze.setCollisionByProperty({ collides: true });
@@ -42,9 +41,14 @@ class Maze3 extends Phaser.Scene {
 
         this.physics.add.overlap(this.avatar, this.papers, this.destroyCollectables, null, this);
 
-        // if (this.collectables.countActive() == 0){
+        if (this.papers.countActive() == 4) {
+            this.block = this.physics.add.sprite(400, 304, "block").setImmovable(true);
+            this.physics.add.collider(this.avatar, this.block, null, this);
+        }
 
-        // }
+        if (this.papers.countActive() >= 0){
+            this.block.destroy;
+        }
 
         // calls the createAnimations function so the animations get created when the avatar is in motion
         this.createAnimations();
