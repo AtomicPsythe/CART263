@@ -8,6 +8,7 @@ class Maze3 extends Phaser.Scene {
     // loads in the walking audio for the avatar
     preload() {
         this.load.audio("walking_music", "assets/sounds/walking.mp3");
+        this.load.image("paper", "assets/images/book.png");
     }
 
     create() {
@@ -24,16 +25,29 @@ class Maze3 extends Phaser.Scene {
         this.physics.add.collider(this.avatar, maze);
 
         // COLLECTABLES
-        this.collectables = this.physics.add.group({
-            key: 'map',
-            quantity: 4
+        this.papers = this.physics.add.group({
+            key: 'paper',
+            quantity: 4,
+            immovable: true
         });
 
-        this.collectables.children.each(function (collectable) {
-            let x = Phaser.Math.Between(400, 600);
-            let y = Phaser.Math.Between(700, 900);
+        this.paper.children.each(function(paper){
+            let x = Phaser.Math.Between(753, 755);
+            let y = Phaser.Math.Between(20, 40);
+            paper.setPosition(x, y);
+        }, this);
+
+        this.collectables = this.physics.add.group({
+            key: 'paper',
+            quantity: 4,
+            immovable: true
+        });
+
+        this.collectables.children.each(function(collectable){
+            let x = Phaser.Math.Between(753, 755);
+            let y = Phaser.Math.Between(20, 40);
             collectable.setPosition(x, y);
-            collectable.setTint(`0x3333dd`);
+            // collectable.setTint(`0x3333dd`);
         }, this);
 
         this.physics.add.overlap(this.avatar, this.collectables, this.destroyCollectables, null, this);
