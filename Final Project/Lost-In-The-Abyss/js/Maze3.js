@@ -9,6 +9,7 @@ class Maze3 extends Phaser.Scene {
     preload() {
         this.load.audio("walking_music", "assets/sounds/walking.mp3");
         this.load.image("paper", "assets/images/book.png");
+        this.load.image("block", "assets/images/block.png");
     }
 
     create() {
@@ -18,6 +19,8 @@ class Maze3 extends Phaser.Scene {
         let tileset = map.addTilesetImage("tileset", "tileset_image");
         map.createLayer("background", tileset);
         let maze = map.createLayer("maze 3", tileset);
+        this.add.image(300, 400, "block");
+        console.log(this.add.image(753, 14, "block"));
 
         // loads in the avatar, adds collision to the maze's walls and adds physics to the avatar so it doesn't move through the maze
         maze.setCollisionByProperty({ collides: true });
@@ -31,26 +34,17 @@ class Maze3 extends Phaser.Scene {
             immovable: true
         });
 
-        this.paper.children.each(function(paper){
+        this.papers.children.each(function(paper){
             let x = Phaser.Math.Between(753, 755);
-            let y = Phaser.Math.Between(20, 40);
+            let y = Phaser.Math.Between(20, 400);
             paper.setPosition(x, y);
         }, this);
 
-        this.collectables = this.physics.add.group({
-            key: 'paper',
-            quantity: 4,
-            immovable: true
-        });
+        this.physics.add.overlap(this.avatar, this.papers, this.destroyCollectables, null, this);
 
-        this.collectables.children.each(function(collectable){
-            let x = Phaser.Math.Between(753, 755);
-            let y = Phaser.Math.Between(20, 40);
-            collectable.setPosition(x, y);
-            // collectable.setTint(`0x3333dd`);
-        }, this);
+        // if (this.collectables.countActive() == 0){
 
-        this.physics.add.overlap(this.avatar, this.collectables, this.destroyCollectables, null, this);
+        // }
 
         // calls the createAnimations function so the animations get created when the avatar is in motion
         this.createAnimations();
@@ -104,8 +98,8 @@ class Maze3 extends Phaser.Scene {
             this.vision.x = this.avatar.x
             this.vision.y = this.avatar.y
         }
-        // console.log(this.avatar.x);
-        // console.log(this.avatar.y);
+        console.log(this.avatar.x);
+        console.log(this.avatar.y);
     }
 
     handleInput() {
