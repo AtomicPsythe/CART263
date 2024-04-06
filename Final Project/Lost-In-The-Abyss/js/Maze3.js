@@ -45,15 +45,6 @@ class Maze3 extends Phaser.Scene {
             this.physics.add.collider(this.avatar, this.block);
         }
 
-        if (this.papers.countActive() == 1) {
-            blockDestroy();
-        }
-
-        // if (this.papers.countActive() == 0) {
-        //     blockDestroy();
-        //     this.physics.add.overlap(this.avatar, this.block, this.blockDestroyFunction, null, this);
-        // }
-
         // calls the createAnimations function so the animations get created when the avatar is in motion
         this.createAnimations();
         this.avatar.play("idle");
@@ -94,13 +85,14 @@ class Maze3 extends Phaser.Scene {
         this.walkingSound.pause();
     }
 
-    blockDestroy(avatar, item){
-        item.destroy();
-        this.block.destroy()
-    }
-
     destroyCollectables(avatar, item){
-        item.destroy();
+        if (this.papers.countActive() <= 4 && this.papers.countActive() >= 1) {
+            item.destroy();
+        }
+        if (this.papers.countActive() == 0) {
+            item.destroy();
+            this.block.destroy()
+        }
     }
 
     update() {
