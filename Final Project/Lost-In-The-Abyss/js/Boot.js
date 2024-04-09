@@ -23,6 +23,12 @@ class Boot extends Phaser.Scene {
         spacing: 64
       });
 
+      this.load.spritesheet("candle_anim", "assets/images/candle_anim.png", {
+        frameWidth: 32,
+        frameHeight: 32,
+        endFrame: 3,
+      });
+
       // loads in the tileset used to create the tilemap and the tilemap itself from Tiled
       this.load.image("tileset_image", "assets/tilemap/tileset.png");
       this.load.tilemapTiledJSON("tilemap", "assets/tilemap/tilemap.json");

@@ -10,6 +10,7 @@ class Maze3 extends Phaser.Scene {
         this.load.audio("walking_music", "assets/sounds/walking.mp3");
         this.load.image("paper", "assets/images/book.png");
         this.load.image("block", "assets/images/block.png");
+        this.load.image("candle", "assets/images/candle.png");
     }
 
     create() {
@@ -25,6 +26,9 @@ class Maze3 extends Phaser.Scene {
         this.avatar = this.physics.add.sprite(753, 14, "avatar");
         this.physics.add.collider(this.avatar, maze);
 
+        // this.add.image(399, 351, "candle");
+        this.candle_anim = this.physics.add.sprite(399, 351, "candle_anim");
+
         // COLLECTABLES
         this.papers = this.physics.add.group({
             key: 'paper',
@@ -32,14 +36,63 @@ class Maze3 extends Phaser.Scene {
             immovable: true
         });
 
-        this.papers.children.each(function(paper){
-            let x = Phaser.Math.Between(753, 755);
-            let y = Phaser.Math.Between(20, 400);
-            paper.setPosition(x, y);
-        }, this);
+        // an array of all of the possible positions for the papers to spawn
+        const positions = [
+            { // left-middle dead end
+                x: 577,
+                y: 300
+            },
+            { // bottom left
+                x: 163,
+                y: 482
+            },
+            {
+                x: 193,
+                y: 420
+            },
+            {
+                x: 97,
+                y: 262
+            },
+            {
+                x: 97,
+                y: 127
+            },
+            {
+                x: 417,
+                y: 162
+            },
+            {
+                x: 544,
+                y: 103
+            },
+            {
+                x: 384,
+                y: 418
+            },
+            {
+                x: 670,
+                y: 227
+            },
+            {
+                x: 608,
+                y: 100
+            }
+        ];
+        
+        // shuffles the posible postions of where the papers can spawn and picks 4
+        Phaser.Utils.Array.Shuffle(positions);
+        
+        // creates the papers and picks the positions for them to spawn
+        this.papers.children.each(function (paper) {
+            const pos = positions.pop();
+            paper.setPosition(16 + pos.x, 16 + pos.y);
+        });
 
+        // if the avatar overlaps with the papers they collect them and it dissapears
         this.physics.add.overlap(this.avatar, this.papers, this.destroyCollectables, null, this);
 
+        // if all 4 papers are active on the screen then the block preventing the exit is still present
         if (this.papers.countActive() == 4) {
             this.block = this.physics.add.sprite(400, 304, "block").setImmovable(true);
             this.physics.add.collider(this.avatar, this.block);
@@ -48,6 +101,7 @@ class Maze3 extends Phaser.Scene {
         // calls the createAnimations function so the animations get created when the avatar is in motion
         this.createAnimations();
         this.avatar.play("idle");
+        this.candle_anim.play("candle_anim", true);
         // makes it so that the avatar cannot move out of bounds
         this.avatar.setCollideWorldBounds(true);
         // allows for the cursor keys to be recognized when they are pressed and released
@@ -85,10 +139,12 @@ class Maze3 extends Phaser.Scene {
         this.walkingSound.pause();
     }
 
+    // function for destroying the collectibles
     destroyCollectables(avatar, item){
         if (this.papers.countActive() <= 4 && this.papers.countActive() >= 1) {
             item.destroy();
         }
+        // if all of the papers are collected then the block preventing the exit breaks
         if (this.papers.countActive() == 0) {
             item.destroy();
             this.block.destroy()
@@ -166,6 +222,14 @@ class Maze3 extends Phaser.Scene {
             }),
             repeat: 0
         };
+
+        this.anims.create({
+            key: "candle_anim",
+            frames: this.anims.generateFrameNumbers("candle_anim", { frames: [0, 1, 2, 3] }),
+            frameRate: 6,
+            repeat: -1
+        })
+
         this.anims.create(idleAnimationConfig);
     }
 }
