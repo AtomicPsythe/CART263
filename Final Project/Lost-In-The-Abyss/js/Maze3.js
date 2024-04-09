@@ -92,6 +92,8 @@ class Maze3 extends Phaser.Scene {
         // if the avatar overlaps with the papers they collect them and it dissapears
         this.physics.add.overlap(this.avatar, this.papers, this.destroyCollectables, null, this);
 
+        this.physics.add.overlap(this.avatar, this.candle_anim, this.candleEnd, null, this);
+
         // if all 4 papers are active on the screen then the block preventing the exit is still present
         if (this.papers.countActive() == 4) {
             this.block = this.physics.add.sprite(400, 304, "block").setImmovable(true);
@@ -107,28 +109,52 @@ class Maze3 extends Phaser.Scene {
         // allows for the cursor keys to be recognized when they are pressed and released
         this.cursors = this.input.keyboard.createCursorKeys();
 
-        // // make a RenderTexture that is the size of the screen
-        // let width = this.scale.width
-        // let rt = this.make.renderTexture({
-        //     width: 1800,
-        //     height: 1200
-        // }, true)
+        this.maskContainer = this.add.container();
 
-        // // creates the "fog of war" effect fill it with black
-        // rt.fill(0x000000, 1)
-        // // set a dark blue tint
-        // rt.setTint(0x0a2948)
+        // make a RenderTexture that is the size of the screen
+        let width = this.scale.width
+        let rt = this.make.renderTexture({
+            width: 1800,
+            height: 1200
+        }, true)
 
-        // // allows for a light or visible area to only be displayed where the avatar is, everywhere else is dark
+        // creates the "fog of war" effect fill it with black
+        rt.fill(0x000000, 1)
+        // set a dark blue tint
+        rt.setTint(0x0a2948)
+
+        // allows for a light or visible area to only be displayed where the avatar is, everywhere else is dark
         // this.vision = this.make.image({
         //     x: this.avatar.x,
         //     y: this.avatar.y,
         //     key: 'vision',
         //     add: false
         // })
-        // this.vision.scale = 2.5
+
+        this.vision = new Phaser.GameObjects.Image(this, this.avatar.x, this.avatar.y, "vision_mask");
+
+        this.vision.scale = 2.5
+
+        this.maskContainer.add(this.vision);
+
         // rt.mask = new Phaser.Display.Masks.BitmapMask(this, this.vision)
         // rt.mask.invertAlpha = true
+
+        // this.candleVision = this.make.image({
+        //     x: this.candle_anim.x,
+        //     y: this.candle_anim.y,
+        //     key: 'vision',
+        //     add: false
+        // })
+
+        this.candleVision = new Phaser.GameObjects.Image(this,this.candle_anim.x, this.candle_anim.y, "vision_mask");
+
+        this.candleVision.scale = 2.5
+
+        this.maskContainer.add(this.candleVision);
+
+        rt.mask = new Phaser.Display.Masks.BitmapMask(this, this.maskContainer)
+        rt.mask.invertAlpha = true
 
         // creates the walking noise and plays it on a loop
         this.walkingSound = this.sound.add("walking_music", {
@@ -149,6 +175,10 @@ class Maze3 extends Phaser.Scene {
             item.destroy();
             this.block.destroy()
         }
+    }
+
+    candleEnd(){
+        this.scene.start("title")
     }
 
     update() {

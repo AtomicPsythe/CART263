@@ -12,6 +12,7 @@ class Jumpscare extends Phaser.Scene {
     // calls for the jumpscare to play if the avatar and shadow avatar overlap, then restarts the maze class once its completed
     create() {
         this.video = this.add.video(400, 300, 'jumpscare');
+        this.video.setScale(2.3);
         this.video.play();
         console.log(this.video);
         this.video.on("complete", () => {

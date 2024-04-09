@@ -24,7 +24,7 @@ class Title extends Phaser.Scene {
         startButton.setInteractive()
         startButton.on("pointerdown", () => {
             this.cameras.main.fadeOut(1000, 0, 0, 0);
-            this.scene.start("maze2");
+            this.scene.start("maze3");
         })
 
         // creates the controls button, upon being clicked opens the controls image where it displays the controls and if the X is clicked on the image closes the instructions image

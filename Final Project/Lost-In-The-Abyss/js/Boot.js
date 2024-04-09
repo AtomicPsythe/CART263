@@ -29,6 +29,8 @@ class Boot extends Phaser.Scene {
         endFrame: 3,
       });
 
+      this.load.image("vision_mask", "assets/images/vision-mask.png");
+
       // loads in the tileset used to create the tilemap and the tilemap itself from Tiled
       this.load.image("tileset_image", "assets/tilemap/tileset.png");
       this.load.tilemapTiledJSON("tilemap", "assets/tilemap/tilemap.json");
