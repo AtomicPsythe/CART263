@@ -11,17 +11,20 @@ class IntroText extends Phaser.Scene {
     }
 
     create() {
+        // creates a fade in for a smooth transition
         this.cameras.main.fadeIn(1000, 0, 0, 0);
         // places the background image
         let background = this.add.sprite(400, 300, "introTextImage");
         // defines the coordinates of where the text will be placed and when the text will wrap onto the next line so it does not go off screen
-	    this.label = this.add.text(100, 200, '')
+        // the following code from lines 21-57 were created by following the Phaser tutorial titled "Typewriter Effect for Text and BitmapText in Phaser 3" written by Tommy Leung
+        // https://blog.ourcade.co/posts/2020/phaser-3-typewriter-text-effect-bitmap/
+        this.label = this.add.text(100, 200, '')
 		.setWordWrapWidth(600)
         
         // the text
         this.typewriteTextWrapped('Once upon a time, there was a man who entered a spiralling forest with his friends one day. He was dared to enter the Abyss Labyrinth and remain there for 5 minutes. As time passes on he feels something grab at his ankles and suddenly pulls him down deeper into the Abyss. He frantically races around seeking the way out... left, right, left right, up, down, but there is no escape. Now weeks later, he remains in the Abyss but finds a well lit maze that he believes may be his ticket to freedom. Will you assist him?                           Press the space bar to embark on your journey...')
     
-        // if the space key is pressed it will fade to the next portion of the game
+        // if the space key is pressed it will fade to Maze 1
         this.input.keyboard.once('keydown-SPACE', () => {
             // fade to black
             this.cameras.main.fadeOut(1000, 0, 0, 0)
@@ -31,7 +34,7 @@ class IntroText extends Phaser.Scene {
         })
     }
 
-    // creates the typewriter-like effect when the text is loading in
+    // creates the typewriter-like effect when the text is loading in by creating a delayed appearence effect for each character
     typewriteText(text) {
         let length = text.length
         let i = 0

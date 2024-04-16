@@ -5,6 +5,9 @@ class Jumpscare extends Phaser.Scene {
         });
     }
 
+    // preloads the jumpscare video
+    // the following jumpscare video comes from the YouTube video from gwn_mathé titled "FNAF 1 Freddy Jumpscare"
+    // the clip itself is taken from the game Five Nights At Freddy's released in 2014 made by Scott Cawthon
     preload() {
         this.load.video("jumpscare", "assets/videos/jumpscare_temp.mp4");
     }

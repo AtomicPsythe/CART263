@@ -11,15 +11,18 @@ class Maze2Text extends Phaser.Scene {
     }
 
     create() {
+        // creates a fade in for a smooth transition
         this.cameras.main.fadeIn(1000, 0, 0, 0);
         // places the background image
         let background = this.add.sprite(400, 300, "mazeTextImage");
         // defines the coordinates of where the text will be placed and when the text will wrap onto the next line so it does not go off screen
+        // the following code from lines 21-57 were created by following the Phaser tutorial titled "Typewriter Effect for Text and BitmapText in Phaser 3" written by Tommy Leung
+        // https://blog.ourcade.co/posts/2020/phaser-3-typewriter-text-effect-bitmap/
 	    this.label = this.add.text(100, 200, '')
 		.setWordWrapWidth(600)
         
         // the text
-        this.typewriteTextWrapped('With the second maze behind us, the light at the end of the Abyss Labyrinth is looking brighter! Here is hoping the light is an actual light and not a shadow clone of ourselves... that was a bit odd was it not? Nevertheless, barricading it in the maze should mean it cannot catch us, someone else will have to deal with that. The end is nigh dear traveller... or at least we hope so!                                             Press the space bar to embark on your next challenge...')
+        this.typewriteTextWrapped('With the second maze behind us, the light at the end of the Abyss Labyrinth is looking brighter! Here is hoping the light is an actual light and not a shadow clone of ourselves... that was a bit odd was it not? Nevertheless, barricading it in the maze should mean it cannot catch us, someone else will have to deal with that. The end is nigh dear traveller... or at least we hope so! Let us hope that we escape the maze before our light goes out...                                             Press the space bar to embark on your next challenge...')
 
         // if the space key is pressed it will fade to the next portion of the game
         this.input.keyboard.once('keydown-SPACE', () => {

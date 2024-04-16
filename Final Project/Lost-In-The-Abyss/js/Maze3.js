@@ -5,7 +5,9 @@ class Maze3 extends Phaser.Scene {
         });
     }
 
-    // loads in the walking audio for the avatar
+    // loads in the walking audio for the avatar, the paper collectibles, the block that will dissapear upon collecting all of the papers, and the candle
+    // the paper collectibles were created by ssugmi on itch.io
+    // https://ssugmi.itch.io/16x16-rpg-assets
     preload() {
         this.load.audio("walking_music", "assets/sounds/walking.mp3");
         this.load.image("paper", "assets/images/book.png");
@@ -26,10 +28,10 @@ class Maze3 extends Phaser.Scene {
         this.avatar = this.physics.add.sprite(753, 14, "avatar");
         this.physics.add.collider(this.avatar, maze);
 
-        // this.add.image(399, 351, "candle");
+        // adds the physics for the candle animation
         this.candle_anim = this.physics.add.sprite(399, 351, "candle_anim");
 
-        // COLLECTABLES
+        // creates the paper collectibles
         this.papers = this.physics.add.group({
             key: 'paper',
             quantity: 4,
@@ -38,11 +40,11 @@ class Maze3 extends Phaser.Scene {
 
         // an array of all of the possible positions for the papers to spawn
         const positions = [
-            { // left-middle dead end
+            {
                 x: 577,
                 y: 300
             },
-            { // bottom left
+            { 
                 x: 163,
                 y: 482
             },
@@ -92,6 +94,7 @@ class Maze3 extends Phaser.Scene {
         // if the avatar overlaps with the papers they collect them and it dissapears
         this.physics.add.overlap(this.avatar, this.papers, this.destroyCollectables, null, this);
 
+        // if the avatar overlaps with the candle then it dissapears and calls the candleEnd function
         this.physics.add.overlap(this.avatar, this.candle_anim, this.candleEnd, null, this);
 
         // if all 4 papers are active on the screen then the block preventing the exit is still present
@@ -109,6 +112,7 @@ class Maze3 extends Phaser.Scene {
         // allows for the cursor keys to be recognized when they are pressed and released
         this.cursors = this.input.keyboard.createCursorKeys();
 
+        // creates a container for the mask that will create the fog of war effect
         this.maskContainer = this.add.container();
 
         // make a RenderTexture that is the size of the screen
@@ -118,41 +122,22 @@ class Maze3 extends Phaser.Scene {
             height: 1200
         }, true)
 
-        // creates the "fog of war" effect fill it with black
+        // creates the "fog of war" effect and fills it with black
         rt.fill(0x000000, 1)
         // set a dark blue tint
         rt.setTint(0x0a2948)
 
-        // allows for a light or visible area to only be displayed where the avatar is, everywhere else is dark
-        // this.vision = this.make.image({
-        //     x: this.avatar.x,
-        //     y: this.avatar.y,
-        //     key: 'vision',
-        //     add: false
-        // })
-
+        // places the vision_mask image upon the avatar and follows them and adds it to the mask container
         this.vision = new Phaser.GameObjects.Image(this, this.avatar.x, this.avatar.y, "vision_mask");
-
         this.vision.scale = 2.5
-
         this.maskContainer.add(this.vision);
 
-        // rt.mask = new Phaser.Display.Masks.BitmapMask(this, this.vision)
-        // rt.mask.invertAlpha = true
-
-        // this.candleVision = this.make.image({
-        //     x: this.candle_anim.x,
-        //     y: this.candle_anim.y,
-        //     key: 'vision',
-        //     add: false
-        // })
-
+        // places the vision_mask upon the candle and adds it to the mask container
         this.candleVision = new Phaser.GameObjects.Image(this,this.candle_anim.x, this.candle_anim.y, "vision_mask");
-
         this.candleVision.scale = 2.5
-
         this.maskContainer.add(this.candleVision);
 
+        // displays and inverts the masks placed upon each image so that it creates darkness around them and light upon them
         rt.mask = new Phaser.Display.Masks.BitmapMask(this, this.maskContainer)
         rt.mask.invertAlpha = true
 
@@ -177,8 +162,9 @@ class Maze3 extends Phaser.Scene {
         }
     }
 
+    // once the player overlaps with the candle it calls the Maze 3 Text scene
     candleEnd(){
-        this.scene.start("title")
+        this.scene.start("maze3Text")
     }
 
     update() {
@@ -189,8 +175,6 @@ class Maze3 extends Phaser.Scene {
             this.vision.x = this.avatar.x
             this.vision.y = this.avatar.y
         }
-        console.log(this.avatar.x);
-        console.log(this.avatar.y);
     }
 
     handleInput() {
@@ -225,14 +209,14 @@ class Maze3 extends Phaser.Scene {
             this.avatar.play(`idle`, true);
         }
 
-        if (this.avatar.x >= 784 && this.avatar.y >= 558) {
-            this.walkingSound.pause();
-            this.cameras.main.fadeOut(1000, 0, 0, 0);
-            this.scene.start("maze1Text");
-        }
+        // if (this.avatar.x >= 784 && this.avatar.y >= 558) {
+        //     this.walkingSound.pause();
+        //     this.cameras.main.fadeOut(1000, 0, 0, 0);
+        //     this.scene.start("maze3Text");
+        // }
     }
 
-    // creates the walking and idle animations for the avatar
+    // creates the walking and idle animations for the avatar and the animation for the candle
     createAnimations() {
         this.anims.create({
             key: "moving",

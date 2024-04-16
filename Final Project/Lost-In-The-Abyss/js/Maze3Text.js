@@ -1,7 +1,7 @@
-class Maze1Text extends Phaser.Scene {
+class Maze3Text extends Phaser.Scene {
     constructor() {
       super({
-        key: `maze1Text`
+        key: `maze3Text`
       });
     }
 
@@ -22,15 +22,15 @@ class Maze1Text extends Phaser.Scene {
 		.setWordWrapWidth(600)
         
         // the text
-        this.typewriteTextWrapped('Upon clearing the first maze, our protagonist finds himself very shaken. However, hope is not lost yet as he feels this is a step in the right direction towards true freedom once again! Who knows what lies left in store in the Abyss Labyrinth? Care to find out?                                        Press the space bar to continue your adventure...')
+        this.typewriteTextWrapped('Upon picking up the Last Light candle a secret door has opened leading to the beautiful outside world we have missed so much! You have done it dear traveler, you have escaped the Abyss Labyrinth in one piece... or so we think so! Embrace the breeze, the greenery and true freedom at last!                  Press the space bar to put a close on your journey...')
 
-        // if the space key is pressed it will fade to Maze 2
+        // if the space key is pressed it will fade to the next portion of the game
         this.input.keyboard.once('keydown-SPACE', () => {
             // fade to black
             this.cameras.main.fadeOut(1000, 0, 0, 0)
         })
         this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
-            this.scene.start('maze2')
+            this.scene.start('end')
         })
     }
 

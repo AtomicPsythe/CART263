@@ -6,7 +6,9 @@ class Boot extends Phaser.Scene {
     }
 
     preload() {
-      // loads in the spritesheet for the avatar and the shadow avatar, ensuring there is no space surrounding both once its loaded
+      // loads in the spritesheet for the avatar, shadow avatar, and candle
+      // the Avatar and Shadow Avatar sprites were created by Hana Caraka on itch.io
+      // https://bagong-games.itch.io/hana-caraka-base-character
       this.load.spritesheet("avatar", "assets/images/avatar.png", {
         frameWidth: 16,
         frameHeight: 16,

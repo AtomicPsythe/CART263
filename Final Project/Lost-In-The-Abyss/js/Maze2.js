@@ -5,7 +5,7 @@ class Maze2 extends Phaser.Scene {
         });
     }
 
-    // loads in the walking audio for the avatar
+    // loads in the walking audio for the avatar and the jumpscare for if the avatar and shadow avatar overlap
     preload() {
         this.load.audio("walking_music", "assets/sounds/walking.mp3");
         this.load.video("jumpscare", "assets/videos/jumpscare_temp.mp4");
@@ -14,7 +14,6 @@ class Maze2 extends Phaser.Scene {
     create() {
         // fades in the new maze after maze1Text
         this.cameras.main.fadeIn(1000, 0, 0, 0);
-        console.log("playing maze 2");
         // adds in the image for the tilemap (and its layers) and the tileset
         let map = this.make.tilemap({ key: "tilemap" });
         let tileset = map.addTilesetImage("tileset", "tileset_image");
@@ -59,7 +58,7 @@ class Maze2 extends Phaser.Scene {
             height: 1200
         }, true)
 
-        // creates the "fog of war" effect fill it with black
+        // creates the "fog of war" effect and fills it with black
         rt.fill(0x000000, 1)
         // set a dark blue tint
         rt.setTint(0x0a2948)
@@ -103,8 +102,6 @@ class Maze2 extends Phaser.Scene {
             this.vision.x = this.avatar.x
             this.vision.y = this.avatar.y
         }
-        // console.log(this.avatar.x);
-        // console.log(this.avatar.y);
 
         // allows for the shadow avatar to follow the same previous movements as the avatar, making it chase it until the avatar gets caught or exits the maze (shadow mario from super mario galaxy style)
         this.avatar.history.push({

@@ -6,6 +6,8 @@ class Maze1 extends Phaser.Scene {
     }
 
     // loads in the walking audio for the avatar
+    // the following walking sound comes from the YouTube video titled "Footstep sound effects (walking sound effect)" by Music & Sounds Effect Library
+    // https://www.youtube.com/watch?v=9g7uukgq0Fc
     preload() {
         this.load.audio("walking_music", "assets/sounds/walking.mp3");
     }
@@ -38,10 +40,9 @@ class Maze1 extends Phaser.Scene {
             height: 1200
         }, true)
 
-        // creates the "fog of war" effect
-        // fill it with black
+        // creates the "fog of war" effect and fills it with black
         rt.fill(0x000000, 1)
-        // set a dark blue tint
+        // sets a dark blue tint
         rt.setTint(0x0a2948)
 
         // allows for a light or visible area to only be displayed where the avatar is, everywhere else is dark
@@ -72,8 +73,6 @@ class Maze1 extends Phaser.Scene {
             this.vision.x = this.avatar.x
             this.vision.y = this.avatar.y
         }
-        // console.log(this.avatar.x);
-        // console.log(this.avatar.y);
     }
 
     handleInput() {
