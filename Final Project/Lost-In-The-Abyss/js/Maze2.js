@@ -15,6 +15,7 @@ class Maze2 extends Phaser.Scene {
         // fades in the new maze after maze1Text
         this.cameras.main.fadeIn(1000, 0, 0, 0);
         // adds in the image for the tilemap (and its layers) and the tileset
+        // the insertion of the tilemap into the game was done with the help of Pippin Barr
         let map = this.make.tilemap({ key: "tilemap" });
         let tileset = map.addTilesetImage("tileset", "tileset_image");
         map.createLayer("background", tileset);
@@ -25,6 +26,7 @@ class Maze2 extends Phaser.Scene {
         this.avatar = this.physics.add.sprite(30, 310, "avatar");
 
         // collects the avatar's previous positions and movements in an array
+        // lines 30-31 were done in collaboration with Pippin Barr
         this.avatar.history = [];
         console.log("Play scene created!");
 
@@ -35,6 +37,7 @@ class Maze2 extends Phaser.Scene {
         this.createAnimations();
 
         // creates the shadow avatar and has it spawn 2 seconds after the avatar loads in and begins to move
+        // the following code from lines 39-47 was done in collaboration with Pippin Barr
         this.avatarShadow = this.physics.add.sprite(30, 310, "avatar_shadow");
         this.avatarShadow.play("shadow_moving");
         this.avatarShadow.setVisible(false);
@@ -51,6 +54,8 @@ class Maze2 extends Phaser.Scene {
         // allows for the cursor keys to be recognized when they are pressed and released
         this.cursors = this.input.keyboard.createCursorKeys();
 
+        // the following code between lines 60-80 were inspired by the following article titled "Simple Fog of War Effect for a Phaser 3 Roguelike" written by Tommy Leung
+        // https://blog.ourcade.co/posts/2020/phaser3-fog-of-war-field-of-view-roguelike/#:~:text=The%20trick%20is%20to%20create,then%20add%20a%20dark%20tint.&text=We%20create%20the%20RenderTexture%20on,to%20a%20dark%20blue%20tint.
         // make a RenderTexture that is the size of the screen
         let width = this.scale.width
         let rt = this.make.renderTexture({
@@ -84,6 +89,7 @@ class Maze2 extends Phaser.Scene {
     }
 
     // checks if the avatar and shadow avatar overlap, if they do then the maze reloads and the player must restart the maze
+    // the following code from lines 91-99 was done in collaboration with Pippin Barr
     caught(shadow, avatar) {
         if (this.avatarShadow.visible) {
             console.log("Overlap");
@@ -104,6 +110,7 @@ class Maze2 extends Phaser.Scene {
         }
 
         // allows for the shadow avatar to follow the same previous movements as the avatar, making it chase it until the avatar gets caught or exits the maze (shadow mario from super mario galaxy style)
+        // the following code from lines 112-119 was done in collaboration with Pippin Barr
         this.avatar.history.push({
             x: this.avatar.x,
             y: this.avatar.y

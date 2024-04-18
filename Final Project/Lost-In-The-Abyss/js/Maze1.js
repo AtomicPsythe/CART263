@@ -14,6 +14,7 @@ class Maze1 extends Phaser.Scene {
 
     create() {
         // adds in the image for the tilemap (and its layers) and the tileset
+        // the insertion of the tilemap into the game was done with the help of Pippin Barr
         this.add.image(0, 0, "full tilemap");
         let map = this.make.tilemap({ key: "tilemap" });
         let tileset = map.addTilesetImage("tileset", "tileset_image");
@@ -33,6 +34,8 @@ class Maze1 extends Phaser.Scene {
         // allows for the cursor keys to be recognized when they are pressed and released
         this.cursors = this.input.keyboard.createCursorKeys();
 
+        // the following code between lines 40-60 were inspired by the following article titled "Simple Fog of War Effect for a Phaser 3 Roguelike" written by Tommy Leung
+        // https://blog.ourcade.co/posts/2020/phaser3-fog-of-war-field-of-view-roguelike/#:~:text=The%20trick%20is%20to%20create,then%20add%20a%20dark%20tint.&text=We%20create%20the%20RenderTexture%20on,to%20a%20dark%20blue%20tint.
         // make a RenderTexture that is the size of the screen
         let width = this.scale.width
         let rt = this.make.renderTexture({

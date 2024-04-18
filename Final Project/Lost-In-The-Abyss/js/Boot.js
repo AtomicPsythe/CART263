@@ -25,12 +25,14 @@ class Boot extends Phaser.Scene {
         spacing: 64
       });
 
+      // the candle animation and sprite were created in collaboration with Scarlett Perez
       this.load.spritesheet("candle_anim", "assets/images/candle_anim.png", {
         frameWidth: 32,
         frameHeight: 32,
         endFrame: 3,
       });
 
+      // the vision mask was created in collaboration with Pippin Barr
       this.load.image("vision_mask", "assets/images/vision-mask.png");
 
       // loads in the tileset used to create the tilemap and the tilemap itself from Tiled
@@ -48,6 +50,7 @@ class Boot extends Phaser.Scene {
   
     create() {
       // creates the loading text meant for when the program is transitioning from scene to scene
+      // code done by Pippin Barr (lines 54-61)
       let loadingTextStyle = {
         fontFamily: "sans-serif",
         fontSize: "40px",

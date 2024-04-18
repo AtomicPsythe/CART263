@@ -22,7 +22,7 @@ class Maze3Text extends Phaser.Scene {
 		.setWordWrapWidth(600)
         
         // the text
-        this.typewriteTextWrapped('Upon picking up the Last Light candle a secret door has opened leading to the beautiful outside world we have missed so much! You have done it dear traveler, you have escaped the Abyss Labyrinth in one piece... or so we think so! Embrace the breeze, the greenery and true freedom at last!                  Press the space bar to put a close on your journey...')
+        this.typewriteTextWrapped('Upon picking up the Last Light candle a secret door has opened leading to the beautiful outside world we have missed so much! You have done it dear traveler, you have escaped the Abyss Labyrinth in one piece... or so we think so! Embrace the breeze, the greenery, and true freedom at last!                  Press the space bar to put a close on your journey...')
 
         // if the space key is pressed it will fade to the next portion of the game
         this.input.keyboard.once('keydown-SPACE', () => {

@@ -8,6 +8,7 @@ class Maze3 extends Phaser.Scene {
     // loads in the walking audio for the avatar, the paper collectibles, the block that will dissapear upon collecting all of the papers, and the candle
     // the paper collectibles were created by ssugmi on itch.io
     // https://ssugmi.itch.io/16x16-rpg-assets
+    // the candle animation was created in collaboration with Scarlett Perez
     preload() {
         this.load.audio("walking_music", "assets/sounds/walking.mp3");
         this.load.image("paper", "assets/images/book.png");
@@ -16,7 +17,9 @@ class Maze3 extends Phaser.Scene {
     }
 
     create() {
+        this.cameras.main.fadeIn(1000, 0, 0, 0);
         // adds in the image for the tilemap (and its layers) and the tileset
+        // the insertion of the tilemap into the game was done with the help of Pippin Barr
         this.add.image(0, 0, "full tilemap");
         let map = this.make.tilemap({ key: "tilemap" });
         let tileset = map.addTilesetImage("tileset", "tileset_image");
@@ -39,6 +42,7 @@ class Maze3 extends Phaser.Scene {
         });
 
         // an array of all of the possible positions for the papers to spawn
+        // code done by and with Pippin Barr (lines 44-100)
         const positions = [
             {
                 x: 577,
@@ -98,6 +102,7 @@ class Maze3 extends Phaser.Scene {
         this.physics.add.overlap(this.avatar, this.candle_anim, this.candleEnd, null, this);
 
         // if all 4 papers are active on the screen then the block preventing the exit is still present
+        // code done in collaboration with Scarlett Perez
         if (this.papers.countActive() == 4) {
             this.block = this.physics.add.sprite(400, 304, "block").setImmovable(true);
             this.physics.add.collider(this.avatar, this.block);
@@ -112,6 +117,7 @@ class Maze3 extends Phaser.Scene {
         // allows for the cursor keys to be recognized when they are pressed and released
         this.cursors = this.input.keyboard.createCursorKeys();
 
+        // the following code from lines 120-146 were done by and with Pippin Barr
         // creates a container for the mask that will create the fog of war effect
         this.maskContainer = this.add.container();
 
@@ -151,6 +157,7 @@ class Maze3 extends Phaser.Scene {
     }
 
     // function for destroying the collectibles
+    // code done in collaboration with Scarlett Perez
     destroyCollectables(avatar, item){
         if (this.papers.countActive() <= 4 && this.papers.countActive() >= 1) {
             item.destroy();
@@ -163,7 +170,10 @@ class Maze3 extends Phaser.Scene {
     }
 
     // once the player overlaps with the candle it calls the Maze 3 Text scene
+    // code done in collaboration with Scarlett Perez
     candleEnd(){
+        this.walkingSound.pause();
+        this.cameras.main.fadeOut(1000, 0, 0, 0);
         this.scene.start("maze3Text")
     }
 
@@ -208,12 +218,6 @@ class Maze3 extends Phaser.Scene {
             this.walkingSound.pause();
             this.avatar.play(`idle`, true);
         }
-
-        // if (this.avatar.x >= 784 && this.avatar.y >= 558) {
-        //     this.walkingSound.pause();
-        //     this.cameras.main.fadeOut(1000, 0, 0, 0);
-        //     this.scene.start("maze3Text");
-        // }
     }
 
     // creates the walking and idle animations for the avatar and the animation for the candle
