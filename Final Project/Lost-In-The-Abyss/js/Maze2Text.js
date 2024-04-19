@@ -22,7 +22,7 @@ class Maze2Text extends Phaser.Scene {
 		.setWordWrapWidth(600)
         
         // the text
-        this.typewriteTextWrapped('With the second maze behind us, the light at the end of the Abyss Labyrinth is looking brighter! Here is hoping the light is an actual light and not a shadow clone of ourselves... that was a bit odd was it not? Nevertheless, barricading it in the maze should mean it cannot catch us, someone else will have to deal with that. To escape the final maze we must find all of the missing book remnants to unlock the exit... let us hope this challenge is not as tedious as the others. The end is nigh dear traveller... or at least we hope so! Let us hope that we escape the maze before our light goes out...                                   Press the space bar to embark on your next challenge...')
+        this.typewriteTextWrapped('With the second maze behind us, the light at the end of the Abyss Labyrinth is looking brighter! Here is hoping the light is an actual light and not a shadow clone of ourselves... that was a bit odd was it not? Nevertheless, barricading it in the maze should mean it cannot catch us, someone else will have to deal with that. To escape the final maze we must find all of the missing book remnants to unlock the exit... let us hope this challenge is not as tedious as the others. The end is nigh dear traveller... or at least we hope so! Let us hope that we escape the maze before our light goes out...                Press the space bar to embark on your next challenge...')
 
         // if the space key is pressed it will fade to the next portion of the game
         this.input.keyboard.once('keydown-SPACE', () => {

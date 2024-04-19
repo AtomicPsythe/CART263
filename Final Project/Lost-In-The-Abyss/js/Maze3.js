@@ -172,7 +172,7 @@ class Maze3 extends Phaser.Scene {
     // once the player overlaps with the candle it calls the Maze 3 Text scene
     // code done in collaboration with Scarlett Perez
     candleEnd(){
-        this.walkingSound.pause();
+        this.walkingSound.stop();
         this.cameras.main.fadeOut(1000, 0, 0, 0);
         this.scene.start("maze3Text")
     }
